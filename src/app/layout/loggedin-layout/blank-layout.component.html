@@ -1,0 +1,6 @@
+@if(this._AuthService.isLoggedIn()) {
+<app-navbar-logged-in></app-navbar-logged-in>
+} @else {
+<app-navbar></app-navbar>
+}
+<router-outlet></router-outlet>
