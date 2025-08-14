@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { jwtDecode } from 'jwt-decode';
 import { IUser } from '../interfaces/iuser';
+import { IAuthResponse } from '../interfaces/Iauthresponse';
 
 @Injectable({
   providedIn: 'root',
@@ -13,36 +14,36 @@ export class AuthService {
   private readonly _HttpClient = inject(HttpClient);
   userData!: IUser;
   readonly isLoggedIn = signal(false);
-  signUp(userDate: object): Observable<any> {
-    return this._HttpClient.post(
+  signUp(userDate: object): Observable<IAuthResponse> {
+    return this._HttpClient.post<IAuthResponse>(
       `${environment.baseUrl}/api/v1/auth/signup`,
-      userDate
+      userDate,
     );
   }
 
-  signIn(userDate: object): Observable<any> {
-    return this._HttpClient.post(
+  signIn(userDate: object): Observable<IAuthResponse> {
+    return this._HttpClient.post<IAuthResponse>(
       `${environment.baseUrl}/api/v1/auth/signin`,
-      userDate
+      userDate,
     );
   }
   forgetPassword(userDate: object): Observable<any> {
     return this._HttpClient.post(
       `${environment.baseUrl}/api/v1/auth/forgotPasswords`,
-      userDate
+      userDate,
     );
   }
   verifyResetCode(userDate: object): Observable<any> {
     return this._HttpClient.post(
       `${environment.baseUrl}/api/v1/auth/verifyResetCode`,
-      userDate
+      userDate,
     );
   }
 
   resetPassword(userDate: object): Observable<any> {
     return this._HttpClient.put(
       `${environment.baseUrl}/api/v1/auth/resetPassword`,
-      userDate
+      userDate,
     );
   }
 
