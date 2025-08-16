@@ -1,4 +1,11 @@
-import { Component, inject, OnDestroy, signal } from '@angular/core';
+import {
+  Component,
+  computed,
+  inject,
+  OnDestroy,
+  OnInit,
+  signal,
+} from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { provideIcons, NgIcon } from '@ng-icons/core';
 import { toObservable } from '@angular/core/rxjs-interop';
@@ -26,6 +33,10 @@ import {
   tap,
 } from 'rxjs';
 import { ProductsService } from '../../services/products.service';
+import { AuthService } from '../../services/auth.service';
+import { toast } from 'ngx-sonner';
+import { CartService } from '../../services/cart.service';
+import { WishlistService } from '../../services/wishlist.service';
 
 @Component({
   selector: 'app-navbar-logged-in',
@@ -49,15 +60,25 @@ import { ProductsService } from '../../services/products.service';
     }),
   ],
 })
-export class NavbarLoggedInComponent implements OnDestroy {
+export class NavbarLoggedInComponent implements OnInit, OnDestroy {
   isMenuCollapsed = signal(true);
   isAddressModalCollapsed = signal(true);
   searchTerm$ = signal('');
+  cartCount = computed(() => this._CartService.userCart().numOfCartItems);
+  wishlistItemsCount = computed(
+    () => this._WishlistService.userWishlist().count,
+  );
+  userName = computed(() => this._AuthService.userInfo().name);
   searchResults = signal<string[]>([]);
   isLoading$ = signal(false);
+  isCartLoading$ = signal(false);
+  isWishlistLoading$ = signal(false);
   delayedSearchTerm$ = signal('');
-  private readonly destroy$ = new Subject<void>();
   private readonly _ProductsService = inject(ProductsService);
+  private readonly _AuthService = inject(AuthService);
+  private readonly _WishlistService = inject(WishlistService);
+  readonly _CartService = inject(CartService);
+  private readonly destroy$ = new Subject<void>();
   constructor() {
     toObservable(this.searchTerm$)
       .pipe(
@@ -70,7 +91,7 @@ export class NavbarLoggedInComponent implements OnDestroy {
           }
           return this._ProductsService.getAllProducts(word);
         }),
-        takeUntil(this.destroy$)
+        takeUntil(this.destroy$),
       )
       .subscribe((res) => {
         if (Array.isArray(res)) {
@@ -79,7 +100,7 @@ export class NavbarLoggedInComponent implements OnDestroy {
           const filteredValues = res.data
             .map((v) => v.title)
             .filter((title: string) =>
-              title.toLowerCase().includes(this.searchTerm$().toLowerCase())
+              title.toLowerCase().includes(this.searchTerm$().toLowerCase()),
             );
 
           this.searchResults.set(filteredValues);
@@ -87,6 +108,30 @@ export class NavbarLoggedInComponent implements OnDestroy {
         }
 
         this.isLoading$.set(false);
+      });
+  }
+  ngOnInit(): void {
+    this._CartService
+      .getUserCart()
+      .pipe(
+        tap(() => this.isCartLoading$.set(true)),
+        takeUntil(this.destroy$),
+      )
+      .subscribe({
+        next: (result) => {
+          this._CartService.userCart.set(result);
+          this.isCartLoading$.set(false);
+        },
+      });
+    console.log(this.cartCount());
+
+    this._WishlistService
+      .getLoggedUserWishlist()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (result) => {
+          this._WishlistService.userWishlist.set(result);
+        },
       });
   }
   ngOnDestroy(): void {
@@ -97,7 +142,8 @@ export class NavbarLoggedInComponent implements OnDestroy {
     this.isMenuCollapsed.update((s) => !s);
   }
   Logout() {
-    console.log('Log Out User');
+    this._AuthService.signOut();
+    toast.info('Logged Out');
   }
   toggleAddressModal() {
     this.isAddressModalCollapsed.update((s) => !s);
