@@ -1,34 +1,47 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { finalize, Observable } from "rxjs";
-import { HttpClient } from "@angular/common/http";
-import { inject, Injectable, signal, WritableSignal } from "@angular/core";
-import { environment } from "../../environments/environment";
+import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { inject, Injectable, signal } from '@angular/core';
+import { environment } from '../../environments/environment';
+import { ICartResponse } from '../interfaces/icart-response';
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class CartService {
   private readonly _HttpClient = inject(HttpClient);
-  numOfCartItems: WritableSignal<number> = signal(0);
-  getLoggedUserCart(): Observable<any> {
-    return this._HttpClient
-      .get(`${environment.baseUrl}/api/v1/cart`)
-      .pipe(finalize(() => {}));
+  userCart = signal<ICartResponse>({} as ICartResponse);
+  getUserCart(): Observable<ICartResponse> {
+    return this._HttpClient.get<ICartResponse>(
+      `${environment.baseUrl}/api/v1/cart`,
+    );
   }
-  clearUserCart(): Observable<any> {
-    return this._HttpClient.delete(`${environment.baseUrl}/api/v1/cart`);
+  clearCartItems(): Observable<{ message: string }> {
+    return this._HttpClient.delete<{ message: string }>(
+      `${environment.baseUrl}/api/v1/cart`,
+    );
   }
-  addProductToCart(id: string): Observable<any> {
-    return this._HttpClient.post(`${environment.baseUrl}/api/v1/cart`, {
-      productId: `${id}`,
-    });
+  addProductToCart(id: string): Observable<ICartResponse> {
+    return this._HttpClient.post<ICartResponse>(
+      `${environment.baseUrl}/api/v1/cart`,
+      {
+        productId: `${id}`,
+      },
+    );
   }
-  removeSpecificCartItem(id: string): Observable<any> {
-    return this._HttpClient.delete(`${environment.baseUrl}/api/v1/cart/${id}`);
+  removeCartItemById(id: string): Observable<ICartResponse> {
+    return this._HttpClient.delete<ICartResponse>(
+      `${environment.baseUrl}/api/v1/cart/${id}`,
+    );
   }
-  updateCartProductQuantity(id: string, quantity: number): Observable<any> {
-    return this._HttpClient.put(`${environment.baseUrl}/api/v1/cart/${id}`, {
-      count: `${quantity}`,
-    });
+  updateCartItemQuantity(
+    id: string,
+    quantity: number,
+  ): Observable<ICartResponse> {
+    return this._HttpClient.put<ICartResponse>(
+      `${environment.baseUrl}/api/v1/cart/${id}`,
+      {
+        count: `${quantity}`,
+      },
+    );
   }
 }

@@ -1,11 +1,9 @@
 export interface IAuthResponse {
   message: string;
-  user: User;
+  user: {
+    name: string;
+    email: string;
+    role: string;
+  };
   token: string;
-}
-
-interface User {
-  name: string;
-  email: string;
-  role: string;
 }

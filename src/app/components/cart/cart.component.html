@@ -1,0 +1,112 @@
+<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
+<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
+<section>
+  <div class="mx-auto max-w-screen-xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
+    <div class="mx-auto max-w-3xl">
+      <header class="flex justify-between items-center">
+        <h1 class="text-xl font-bold text-gray-900 sm:text-3xl">My Cart</h1>
+        <span
+          (click)="clearCart()"
+          class="cursor-pointer hover:text-red-600 text-center"
+          >Remove All <ng-icon name="lucideTrash"></ng-icon
+        ></span>
+      </header>
+      @if (!isEmptyCart()) {
+        @for (item of cartItems(); track item._id) {
+          <div class="mt-8">
+            <ul class="space-y-4">
+              <li class="flex items-center gap-4">
+                <div class="size-24 relative">
+                  <img
+                    priority
+                    [ngSrc]="item.product.imageCover"
+                    alt="{{ item.product.slug }}"
+                    fill=""
+                    class="w-full rounded-sm object-cover"
+                  />
+                </div>
+
+                <div>
+                  <h3 class="text-lg text-gray-900">
+                    {{ item.product.title }}
+                  </h3>
+
+                  <dl class="mt-0.5 space-y-px text-sm text-gray-600">
+                    <div class="flex gap-1">
+                      <dt class="inline">Brand:</dt>
+                      <dd class="inline">{{ item.product.brand.name }}</dd>
+                    </div>
+
+                    <div class="flex gap-1">
+                      <dt class="inline">Category:</dt>
+                      <dd class="inline">{{ item.product.category.name }}</dd>
+                    </div>
+                  </dl>
+                  <div class="flex gap-x-1">
+                    <span>Price:</span>
+                    <span>E{{ item.price | currency: "GBP" }}</span>
+                  </div>
+                </div>
+
+                <div class="flex flex-1 items-center justify-end gap-2">
+                  <form>
+                    <label for="Line1Qty" class="sr-only"> Quantity </label>
+                    <input
+                      type="number"
+                      [formControl]="productCount"
+                      (change)="
+                        changeCartItemCount(item, $any($event.target).value)
+                      "
+                      min="1"
+                      type="number"
+                      [max]="item.product.quantity"
+                      [value]="item.count"
+                      id="Line1Qty"
+                      class="h-8 w-12 rounded-sm ring-emerald-500 border-gray-200 bg-gray-50 p-0 text-center text-xs text-gray-600 [-moz-appearance:_textfield] focus:outline-hidden [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none"
+                    />
+                  </form>
+
+                  <button
+                    (click)="removeItem(item.product._id, item.product.title)"
+                    class="text-gray-600 transition hover:text-red-600"
+                  >
+                    <span class="sr-only">Remove item</span>
+                    <ng-icon
+                      class="cursor-pointer"
+                      name="lucideTrash"
+                    ></ng-icon>
+                  </button>
+                </div>
+              </li>
+            </ul>
+          </div>
+        }
+        <div class="mt-8 flex justify-end border-t border-gray-100 pt-8">
+          <div class="w-screen max-w-lg space-y-4">
+            <dl class="space-y-0.5 text-sm text-gray-700">
+              <div class="flex justify-between !text-base font-medium">
+                <dt>Total</dt>
+                <dd>
+                  E{{
+                    this._CartService.userCart().data.totalCartPrice
+                      | currency: "GBP"
+                  }}
+                </dd>
+              </div>
+            </dl>
+            <div class="flex justify-end">
+              <button
+                (click)="checkOutCart()"
+                class="block rounded-sm bg-emerald-700 px-5 py-3 text-sm cursor-pointer text-gray-100 transition hover:bg-emerald-600"
+              >
+                Checkout
+              </button>
+            </div>
+          </div>
+        </div>
+      } @else {
+        <p>Empty Cart</p>
+      }
+    </div>
+  </div>
+</section>
