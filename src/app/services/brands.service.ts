@@ -1,20 +1,26 @@
+import { IBrand } from './../interfaces/ibrand';
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { HttpClient } from "@angular/common/http";
-import { inject, Injectable } from "@angular/core";
-import { environment } from "../../environments/environment";
-import { Observable } from "rxjs";
+import { HttpClient } from '@angular/common/http';
+import { inject, Injectable, signal } from '@angular/core';
+import { environment } from '../../environments/environment';
+import { Observable } from 'rxjs';
+import { IBrandResponse } from '../interfaces/ibrand-response';
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class BrandsService {
   private readonly _HttpClient = inject(HttpClient);
-
-  getAllBrands(): Observable<any> {
-    return this._HttpClient.get(`${environment.baseUrl}/api/v1/brands`);
+  readonly brands = signal<IBrandResponse>({} as IBrandResponse);
+  getAllBrands(): Observable<IBrandResponse> {
+    return this._HttpClient.get<IBrandResponse>(
+      `${environment.baseUrl}/api/v1/brands`,
+    );
   }
 
-  getSpecificBrand(id: string): Observable<any> {
-    return this._HttpClient.get(`${environment.baseUrl}/api/v1/brands/${id}`);
+  getSpecificBrand(id: string): Observable<IBrandResponse['data']> {
+    return this._HttpClient.get<any>(
+      `${environment.baseUrl}/api/v1/brands/${id}`,
+    );
   }
 }

@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { HttpClient } from "@angular/common/http";
-import { inject, Injectable } from "@angular/core";
-import { environment } from "../../environments/environment";
-import { AuthService } from "./auth.service";
+import { HttpClient } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
+import { environment } from '../../environments/environment';
+import { AuthService } from './auth.service';
 
-import { Observable } from "rxjs";
+import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class OrdersService {
   private readonly _HttpClient = inject(HttpClient);
@@ -15,7 +15,7 @@ export class OrdersService {
 
   getUserOrders(): Observable<any> {
     return this._HttpClient.get(
-      `${environment.baseUrl}/api/v1/orders/user/${this._AuthService.userData.id}`
+      `${environment.baseUrl}/api/v1/orders/user/${this._AuthService.userInfo().id}`,
     );
   }
   checkOutSession(cartId: string, userData: object): Observable<any> {
@@ -23,7 +23,7 @@ export class OrdersService {
       `${environment.baseUrl}/api/v1/orders/checkout-session/${cartId}?url=https://freshkartt.netlify.app`,
       {
         shippingAddress: userData,
-      }
+      },
     );
   }
 }
