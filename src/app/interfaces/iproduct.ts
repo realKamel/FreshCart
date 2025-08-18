@@ -21,4 +21,6 @@ export interface IProduct {
   updatedAt: string;
   id: string;
   inWishList?: boolean;
+  priceAfterDiscount?: number;
+  __v: number;
 }

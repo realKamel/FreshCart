@@ -5,11 +5,11 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
   lucideCircleX,
-  lucideLoaderPinwheel,
+  lucideLoaderCircle,
   lucideUserLock,
 } from '@ng-icons/lucide';
 import { AuthService } from '../../services/auth.service';
@@ -23,11 +23,12 @@ import { HttpErrorResponse } from '@angular/common/http';
   templateUrl: './log-in.component.html',
   styleUrl: './log-in.component.css',
   viewProviders: [
-    provideIcons({ lucideUserLock, lucideCircleX, lucideLoaderPinwheel }),
+    provideIcons({ lucideUserLock, lucideCircleX, lucideLoaderCircle }),
   ],
 })
 export class LogInComponent implements OnDestroy {
   private readonly _AuthService = inject(AuthService);
+  private readonly _Router = inject(Router);
   private readonly destroy$ = new Subject<void>();
   readonly isLoading = signal(false);
   userLoginFrom = new FormGroup({
@@ -63,6 +64,8 @@ export class LogInComponent implements OnDestroy {
         )
         .subscribe({
           next: (result) => {
+            this._AuthService.setUserToken(result.token);
+            this._Router.navigate(['home']);
             toast.success(result.message);
           },
           error: (err: HttpErrorResponse) => {

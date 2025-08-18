@@ -1,7 +1,6 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { toast, NgxSonnerToaster } from 'ngx-sonner';
-// import { NgxSpinnerComponent } from 'ngx-spinner';
 import { AuthService } from './services/auth.service';
 import { FooterComponent } from './components/footer/footer.component';
 import { Subject } from 'rxjs';
@@ -23,9 +22,9 @@ export class App implements OnInit {
   readonly _AuthService = inject(AuthService);
   readonly _Router = inject(Router);
   private readonly destroy$ = new Subject<void>();
-
   ngOnInit(): void {
-    // this._AuthService.isLoggedIn.set(true);
-    console.log('use is logged in');
+    if (this._AuthService.getUserToken() !== null) {
+      this._AuthService.isLoggedIn.set(true);
+    }
   }
 }

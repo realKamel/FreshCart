@@ -1,1 +1,37 @@
-<p>home works!</p>
+<section class="brands w-full">
+  <h2 class="text-center text-5xl font-bold my-2">Explore Our Brands</h2>
+  <div class="w-full relative p-3">
+    <swiper-container
+      class="mySwiper"
+      slides-per-view="4"
+      grid-fill="row"
+      scrollbar-hide="true"
+      grid-rows="2"
+      free-mode="true"
+      space-between="10"
+    >
+      @for (item of _BrandsService.brands().data; track item._id) {
+        <swiper-slide
+          class="border-2 rounded-lg border-gray-200 relative cursor-pointer"
+          routerLink="brand/{{ item._id }}"
+        >
+          <div
+            class="gap-1 w-full grid grid-cols-6 items-center bg-emerald-100 rounded-lg"
+          >
+            <div class="col-span-3">
+              <img
+                [src]="item.image"
+                class="w-full rounded-s-lg"
+                alt="{{ item.slug }}"
+              />
+            </div>
+            <div class="col-span-3 text-emerald-900">
+              <p class="text-start">{{ item.name }}</p>
+              <p class="text-start">More Products</p>
+            </div>
+          </div>
+        </swiper-slide>
+      }
+    </swiper-container>
+  </div>
+</section>

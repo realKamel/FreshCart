@@ -3,7 +3,7 @@ import { RouterLink } from '@angular/router';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
   lucideCircleX,
-  lucideLoaderPinwheel,
+  lucideLoaderCircle,
   lucideUserPlus,
 } from '@ng-icons/lucide';
 import {
@@ -24,7 +24,7 @@ import { HttpErrorResponse } from '@angular/common/http';
   templateUrl: './register.component.html',
   styleUrl: './register.component.css',
   viewProviders: [
-    provideIcons({ lucideUserPlus, lucideCircleX, lucideLoaderPinwheel }),
+    provideIcons({ lucideUserPlus, lucideCircleX, lucideLoaderCircle }),
   ],
 })
 export class RegisterComponent implements OnDestroy {

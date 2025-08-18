@@ -7,76 +7,144 @@
     aria-modal="true"
     aria-labelledby="modalTitle"
   >
-    <div class="w-full max-w-md rounded-lg bg-white p-6 shadow-lg">
-      <div class="flex items-start justify-between">
+    <div class="w-[65rem] overflow-auto rounded-lg bg-white p-6 shadow-lg">
+      <div>
         <h2 id="modalTitle" class="text-xl font-bold text-gray-900 sm:text-2xl">
           Select Delivery Address
         </h2>
       </div>
 
-      <div class="mt-4">
-        <fieldset class="space-y-3">
-          <legend class="sr-only">Delivery</legend>
-
-          <div>
-            <label
-              for="DeliveryStandard"
-              class="flex items-center justify-between gap-4 rounded border border-gray-300 bg-white p-3 text-sm font-medium shadow-sm transition-colors hover:bg-gray-50 has-checked:border-emerald-600 has-checked:ring-1 has-checked:ring-emerald-600"
-            >
-              <p class="text-gray-700">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste
-                aliquam sapiente obcaecati nisi iure! Accusantium.
-              </p>
-
-              <input
-                type="radio"
-                name="DeliveryOption"
-                value="DeliveryStandard"
-                id="DeliveryStandard"
-                class="sr-only"
-                checked
-              />
-            </label>
-          </div>
-
-          <div>
-            <label
-              for="DeliveryPriority"
-              class="flex items-center justify-between gap-4 rounded border border-gray-300 bg-white p-3 text-sm font-medium shadow-sm transition-colors hover:bg-gray-50 has-checked:border-emerald-600 has-checked:ring-1 has-checked:ring-emerald-600"
-            >
-              <p class="text-gray-700">
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Autem
-                sapiente at amet doloremque facilis? Magnam!
-              </p>
-
-              <input
-                type="radio"
-                name="DeliveryOption"
-                value="DeliveryPriority"
-                id="DeliveryPriority"
-                class="sr-only"
-              />
-            </label>
-          </div>
-        </fieldset>
+      <div class="mt-2 w-full">
+        <div class="space-y-3 bg-red-500">
+          <span class="sr-only">Delivery</span>
+          @for (
+            item of this._AddressesService.userAddresses$().data;
+            track item._id
+          ) {
+            <div>
+              <label
+                for="DeliveryStandard"
+                class="flex items-center justify-between gap-4 rounded border border-gray-300 bg-white p-3 text-sm font-medium shadow-sm transition-colors hover:bg-gray-50 has-checked:border-emerald-600 has-checked:ring-1 has-checked:ring-emerald-600"
+              >
+                <div>
+                  <h3 class="text-lg">{{ item.name }}</h3>
+                  <p class="text-gray-700">
+                    <span>Details: </span>
+                    <span>
+                      {{ item.details }}
+                    </span>
+                  </p>
+                  <p class="text-gray-700">
+                    <span>City: </span>
+                    <span>
+                      {{ item.city }}
+                    </span>
+                  </p>
+                  <p class="text-gray-700">
+                    <span> Phone: </span>
+                    <span>
+                      {{ item.phone }}
+                    </span>
+                  </p>
+                </div>
+                <input
+                  type="radio"
+                  name="DeliveryOption"
+                  value="{{ item._id }}"
+                  id="DeliveryStandard"
+                  class="sr-only"
+                />
+              </label>
+            </div>
+            <div>
+              <label
+                for="DeliveryStandard"
+                class="flex items-center justify-between gap-4 rounded border border-gray-300 bg-white p-3 text-sm font-medium shadow-sm transition-colors hover:bg-gray-50 has-checked:border-emerald-600 has-checked:ring-1 has-checked:ring-emerald-600"
+              >
+                <div>
+                  <h3 class="text-lg">{{ item.name }}</h3>
+                  <p class="text-gray-700">
+                    <span>Details: </span>
+                    <span>
+                      {{ item.details }}
+                    </span>
+                  </p>
+                  <p class="text-gray-700">
+                    <span>City: </span>
+                    <span>
+                      {{ item.city }}
+                    </span>
+                  </p>
+                  <p class="text-gray-700">
+                    <span> Phone: </span>
+                    <span>
+                      {{ item.phone }}
+                    </span>
+                  </p>
+                </div>
+                <input
+                  type="radio"
+                  name="DeliveryOption"
+                  value="{{ item._id }}"
+                  id="DeliveryStandard"
+                  class="sr-only"
+                />
+              </label>
+            </div>
+            <div>
+              <label
+                for="DeliveryStandard"
+                class="flex items-center justify-between gap-4 rounded border border-gray-300 bg-white p-3 text-sm font-medium shadow-sm transition-colors hover:bg-gray-50 has-checked:border-emerald-600 has-checked:ring-1 has-checked:ring-emerald-600"
+              >
+                <div>
+                  <h3 class="text-lg">{{ item.name }}</h3>
+                  <p class="text-gray-700">
+                    <span>Details: </span>
+                    <span>
+                      {{ item.details }}
+                    </span>
+                  </p>
+                  <p class="text-gray-700">
+                    <span>City: </span>
+                    <span>
+                      {{ item.city }}
+                    </span>
+                  </p>
+                  <p class="text-gray-700">
+                    <span> Phone: </span>
+                    <span>
+                      {{ item.phone }}
+                    </span>
+                  </p>
+                </div>
+                <input
+                  type="radio"
+                  name="DeliveryOption"
+                  value="{{ item._id }}"
+                  id="DeliveryStandard"
+                  class="sr-only"
+                />
+              </label>
+            </div>
+          }
+        </div>
       </div>
+    </div>
+    <div class="mt-6 flex justify-end gap-2">
+      <button
+        type="button"
+        (click)="toggleAddressModal()"
+        class="rounded cursor-pointer bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-200"
+      >
+        Cancel
+      </button>
 
-      <footer class="mt-6 flex justify-end gap-2">
-        <button
-          type="button"
-          (click)="toggleAddressModal()"
-          class="rounded bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-200"
-        >
-          Cancel
-        </button>
-
-        <button
-          type="button"
-          class="rounded bg-emerald-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-emerald-700"
-        >
-          Confirm
-        </button>
-      </footer>
+      <button
+        type="button"
+        class="rounded cursor-pointer bg-emerald-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-emerald-700"
+      >
+        Confirm
+      </button>
     </div>
   </div>
 </div>
@@ -156,8 +224,9 @@
                   <a
                     class="block px-3 py-2 cursor-pointer text-sm font-medium text-gray-700 transition-colors hover:bg-emerald-50 hover:text-gray-900"
                     role="menuitem"
+                    routerLink="/product/{{ item._id }}"
                   >
-                    {{ item }}
+                    {{ item.title }}
                   </a>
                 }
               </div>

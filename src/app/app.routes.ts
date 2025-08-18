@@ -8,6 +8,7 @@ import { BlankLayoutComponent } from './layout/loggedin-layout/blank-layout.comp
 import { authGuard } from './guards/auth.guard';
 import { CartComponent } from './components/cart/cart.component';
 import { loggedinGuard } from './guards/loggedin.guard';
+import { ProductDetailsComponent } from './components/product-details/product-details.component';
 
 export const routes: Routes = [
   {
@@ -20,6 +21,7 @@ export const routes: Routes = [
         pathMatch: 'full',
       },
       { path: 'home', component: HomeComponent },
+      { path: 'product/:id', component: ProductDetailsComponent },
       { path: 'cart', component: CartComponent, canActivate: [loggedinGuard] },
     ],
   },
