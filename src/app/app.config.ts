@@ -2,7 +2,7 @@ import {
   ApplicationConfig,
   importProvidersFrom,
   provideBrowserGlobalErrorListeners,
-  provideZoneChangeDetection,
+  provideZonelessChangeDetection,
 } from '@angular/core';
 import {
   provideRouter,
@@ -25,7 +25,7 @@ import { headerInterceptor } from './interceptors/header.interceptor';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
-    provideZoneChangeDetection({ eventCoalescing: true }),
+    provideZonelessChangeDetection(),
     provideRouter(
       routes,
       withInMemoryScrolling({

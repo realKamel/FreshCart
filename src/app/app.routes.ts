@@ -9,6 +9,7 @@ import { authGuard } from './guards/auth.guard';
 import { CartComponent } from './components/cart/cart.component';
 import { loggedinGuard } from './guards/loggedin.guard';
 import { ProductDetailsComponent } from './components/product-details/product-details.component';
+import { BrandComponent } from './components/brand/brand.component';
 
 export const routes: Routes = [
   {
@@ -20,28 +21,37 @@ export const routes: Routes = [
         redirectTo: 'home',
         pathMatch: 'full',
       },
-      { path: 'home', component: HomeComponent },
+      { path: 'home', component: HomeComponent, title: 'Home' },
       { path: 'product/:id', component: ProductDetailsComponent },
-      { path: 'cart', component: CartComponent, canActivate: [loggedinGuard] },
+      { path: 'brand/:id', component: BrandComponent },
+      {
+        path: 'cart',
+        component: CartComponent,
+        canActivate: [loggedinGuard],
+        title: 'Cart',
+      },
     ],
   },
   {
-    path: '',
+    path: 'auth',
     component: AuthLayoutComponent,
     canActivate: [authGuard],
     children: [
       {
         path: 'log-in',
         component: LogInComponent,
+        title: 'Log in',
       },
       {
         path: 'register',
         component: RegisterComponent,
+        title: 'Register',
       },
     ],
   },
   {
     path: '**',
     component: NotfoundComponent,
+    title: 'Not Found',
   },
 ];

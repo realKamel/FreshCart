@@ -14,7 +14,7 @@
           "builder": "@angular/build:application",
           "options": {
             "browser": "src/main.ts",
-            "polyfills": ["zone.js"],
+            "polyfills": [],
             "tsConfig": "tsconfig.app.json",
             "assets": [
               {
@@ -24,8 +24,6 @@
             ],
             "styles": [
               "node_modules/ngx-spinner/animations/ball-spin.css",
-              "node_modules/ngx-owl-carousel-o/lib/styles/prebuilt-themes/owl.carousel.min.css",
-              "node_modules/ngx-owl-carousel-o/lib/styles/prebuilt-themes/owl.theme.default.min.css",
               "src/styles.css"
             ],
             "server": "src/main.server.ts",
@@ -82,7 +80,7 @@
         "test": {
           "builder": "@angular/build:karma",
           "options": {
-            "polyfills": ["zone.js", "zone.js/testing"],
+            "polyfills": [],
             "tsConfig": "tsconfig.spec.json",
             "assets": [
               {
@@ -103,9 +101,7 @@
     }
   },
   "cli": {
-    "schematicCollections": [
-      "angular-eslint"
-    ],
+    "schematicCollections": ["angular-eslint"],
     "analytics": false
   },
   "schematics": {

@@ -1,18 +1,25 @@
 import { RenderMode, ServerRoute } from '@angular/ssr';
 
 export const serverRoutes: ServerRoute[] = [
+  //prerender
+  {
+    path: 'home',
+    renderMode: RenderMode.Prerender,
+  },
+  //client
   {
     path: 'cart',
     renderMode: RenderMode.Client,
   },
   {
-    path: 'log-in',
+    path: 'auth/log-in',
     renderMode: RenderMode.Client,
   },
   {
-    path: 'register',
+    path: 'auth/register',
     renderMode: RenderMode.Client,
   },
+  // anything fallback to SSR
   {
     path: '**',
     renderMode: RenderMode.Server,
