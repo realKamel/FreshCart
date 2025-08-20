@@ -23,4 +23,5 @@ export interface IProduct {
   inWishList?: boolean;
   priceAfterDiscount?: number;
   __v: number;
+  reviews: unknown[];
 }
