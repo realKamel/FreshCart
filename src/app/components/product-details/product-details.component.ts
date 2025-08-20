@@ -16,7 +16,7 @@ import { register } from 'swiper/element/bundle';
 // import { Swiper } from 'swiper/types';
 import { CartService } from '../../services/cart.service';
 import { WishlistService } from '../../services/wishlist.service';
-import { CurrencyPipe, NgOptimizedImage } from '@angular/common';
+import { CurrencyPipe } from '@angular/common';
 import { provideIcons, NgIcon } from '@ng-icons/core';
 import {
   lucideCheckCheck,
@@ -31,7 +31,7 @@ import { FormControl, Validators } from '@angular/forms';
 register();
 @Component({
   selector: 'app-product-details',
-  imports: [CurrencyPipe, NgIcon, NgOptimizedImage],
+  imports: [CurrencyPipe, NgIcon],
   templateUrl: './product-details.component.html',
   styleUrl: './product-details.component.css',
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -52,11 +52,7 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
   private readonly _CartService = inject(CartService);
   private readonly _WishlistService = inject(WishlistService);
   readonly isProductInCart$ = signal(false);
-  readonly isProductInWishlist$ = signal<boolean>(
-    this._WishlistService
-      .userWishlist()
-      .data?.some((p) => p._id === this.product()._id),
-  );
+  readonly isProductInWishlist$ = signal(false);
   readonly product = signal<IProduct>({} as IProduct);
   productCount = new FormControl(1, [Validators.required, Validators.min(1)]);
   private readonly destroy$ = new Subject<void>();
@@ -81,10 +77,15 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
             toast.error(err.error.message);
           },
         });
+      this.isProductInWishlist$.set(
+        this._WishlistService
+          .userWishlist()
+          .data?.some((p) => p._id === this.product()._id),
+      );
     }
   }
 
-  ToggleItemInCart(id: string) {
+  toggleItemInCart(id: string) {
     toast.info('loading');
     if (this.isProductInCart$()) {
       this._CartService
@@ -116,7 +117,7 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
         });
     }
   }
-  ToggleItemInWishlist(id: string) {
+  toggleItemInWishlist(id: string) {
     toast.info('loading');
     if (this.isProductInWishlist$()) {
       // if in wishlist remove it

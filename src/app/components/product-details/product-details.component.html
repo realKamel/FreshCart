@@ -1,11 +1,11 @@
-<section class="bg-gray-200 h-screen p-3">
+<section class="bg-gray-200 p-3">
   <div class="grid grid-cols-12 gap-x-2">
     <div
       class="col-span-8 bg-white rounded-lg shadow flex relative justify-center items-center"
     >
       <div class="absolute top-2 right-3 flex flex-col items-end">
         <button
-          (click)="ToggleItemInWishlist(product()._id)"
+          (click)="toggleItemInWishlist(product()._id)"
           title="Toggle Product In Wishlist"
           type="button"
           class="text-3xl cursor-pointer text-gray-400 hover:text-red-600 transition duration-200"
@@ -29,6 +29,8 @@
           class="w-full mySwiper rounded-lg relative"
           mousewheel="true"
           effect="cards"
+          cards-effect-slide-shadows="false"
+          mousewheel-force-to-axis="true"
           grab-cursor="true"
         >
           @for (image of product().images; track $index) {
@@ -37,7 +39,7 @@
                 priority
                 [src]="image"
                 alt="{{ product().slug }}"
-                class="w-full h-full object-cover rounded-lg shadow border border-gray-200"
+                class="w-full h-full object-cover rounded-lg shadow border-2 border-gray-200"
               />
             </swiper-slide>
           }
@@ -96,7 +98,7 @@
         <div class="action-buttons flex items-center gap-x-2 self-end">
           <button
             type="button"
-            (click)="ToggleItemInCart(product()._id)"
+            (click)="toggleItemInCart(product()._id)"
             [class]="
               isProductInCart$() ? ['bg-red-500', 'hover:bg-red-600'] : ''
             "
@@ -119,6 +121,18 @@
           </button>
         </div>
       </div>
+    </div>
+  </div>
+  <div class="review mt-2 shadow">
+    <div class="rounded-lg bg-white p-3">
+      @if (product().reviews.length !== 0) {
+        <h3 class="text-2xl">Reviews</h3>
+        @for (item of product().reviews; track $index) {
+          <p>item</p>
+        }
+      } @else {
+        <h3 class="text-center text-2xl text-gray-500">No Reviews Until Now</h3>
+      }
     </div>
   </div>
 </section>
