@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { HideOnClickOutsideDirective } from './../../directives/hide-on-click-outside.directive';
 import {
   Component,
@@ -5,6 +6,7 @@ import {
   inject,
   OnDestroy,
   OnInit,
+  PLATFORM_ID,
   signal,
 } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
@@ -29,6 +31,7 @@ import { CartService } from '../../services/cart.service';
 import { WishlistService } from '../../services/wishlist.service';
 import { AddressesService } from '../../services/addresses.service';
 import { SearchBarComponent } from '../tools/search-bar/search-bar.component';
+import { isPlatformBrowser, TitleCasePipe } from '@angular/common';
 
 @Component({
   selector: 'app-navbar-logged-in',
@@ -37,6 +40,7 @@ import { SearchBarComponent } from '../tools/search-bar/search-bar.component';
     RouterLink,
     HideOnClickOutsideDirective,
     SearchBarComponent,
+    TitleCasePipe,
   ],
   templateUrl: './navbar-logged-in.component.html',
   styleUrl: './navbar-logged-in.component.css',
@@ -72,6 +76,7 @@ export class NavbarLoggedInComponent implements OnInit, OnDestroy {
   readonly _CartService = inject(CartService);
   readonly _AddressesService = inject(AddressesService);
   readonly _Router = inject(Router);
+  private readonly _PLATFORM_ID = inject(PLATFORM_ID);
   private readonly destroy$ = new Subject<void>();
   ngOnInit(): void {
     this._CartService
@@ -85,6 +90,11 @@ export class NavbarLoggedInComponent implements OnInit, OnDestroy {
           this._CartService.userCart.set(result);
           this.isCartLoading$.set(false);
         },
+        error: (err: HttpErrorResponse) => {
+          if (isPlatformBrowser(this._PLATFORM_ID)) {
+            toast.error(err.error.message);
+          }
+        },
       });
     console.log(this.cartCount());
 
@@ -95,6 +105,11 @@ export class NavbarLoggedInComponent implements OnInit, OnDestroy {
         next: (result) => {
           this._WishlistService.userWishlist.set(result);
         },
+        error: (err: HttpErrorResponse) => {
+          if (isPlatformBrowser(this._PLATFORM_ID)) {
+            toast.error(err.error.message);
+          }
+        },
       });
     this._AddressesService
       .getAllUserAddresses()
@@ -102,6 +117,11 @@ export class NavbarLoggedInComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (value) => {
           this._AddressesService.userAddresses$.set(value);
+        },
+        error: (err: HttpErrorResponse) => {
+          if (isPlatformBrowser(this._PLATFORM_ID)) {
+            toast.error(err.error.message);
+          }
         },
       });
   }

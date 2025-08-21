@@ -4,6 +4,7 @@ import {
   inject,
   OnDestroy,
   OnInit,
+  PLATFORM_ID,
   signal,
 } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
@@ -16,7 +17,7 @@ import { register } from 'swiper/element/bundle';
 // import { Swiper } from 'swiper/types';
 import { CartService } from '../../services/cart.service';
 import { WishlistService } from '../../services/wishlist.service';
-import { CurrencyPipe } from '@angular/common';
+import { CurrencyPipe, isPlatformBrowser } from '@angular/common';
 import { provideIcons, NgIcon } from '@ng-icons/core';
 import {
   lucideCheckCheck,
@@ -53,6 +54,7 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
   private readonly _WishlistService = inject(WishlistService);
   readonly isProductInCart$ = signal(false);
   readonly isProductInWishlist$ = signal(false);
+  private readonly _PLATFORM_ID = inject(PLATFORM_ID);
   readonly product = signal<IProduct>({} as IProduct);
   productCount = new FormControl(1, [Validators.required, Validators.min(1)]);
   private readonly destroy$ = new Subject<void>();
@@ -74,7 +76,9 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
             console.log(value);
           },
           error: (err: HttpErrorResponse) => {
-            toast.error(err.error.message);
+            if (isPlatformBrowser(this._PLATFORM_ID)) {
+              toast.error(err.error.message);
+            }
           },
         });
       this.isProductInWishlist$.set(

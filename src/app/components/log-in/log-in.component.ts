@@ -64,7 +64,9 @@ export class LogInComponent implements OnDestroy {
         )
         .subscribe({
           next: (result) => {
-            this._AuthService.setUserToken(result.token);
+            console.log('auth response', result);
+            console.warn('log in logic');
+            this._AuthService.setToken(result.token);
             this._Router.navigate(['home']);
             toast.success(result.message);
           },
