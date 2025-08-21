@@ -8,7 +8,7 @@ export const headerInterceptor: HttpInterceptorFn = (req, next) => {
   if (isPlatformBrowser(_PLATFORM_ID)) {
     const _AuthService = inject(AuthService);
     req = req.clone({
-      headers: req.headers.set('token', _AuthService.getUserToken() ?? ''),
+      headers: req.headers.set('token', _AuthService.getToken() ?? ''),
     });
   }
   return next(req);
