@@ -10,6 +10,7 @@ import { CartComponent } from './components/cart/cart.component';
 import { loggedinGuard } from './guards/loggedin.guard';
 import { ProductDetailsComponent } from './components/product-details/product-details.component';
 import { BrandComponent } from './components/brand/brand.component';
+import { ForgetPasswordComponent } from './components/forget-password/forget-password.component';
 
 export const routes: Routes = [
   {
@@ -46,6 +47,11 @@ export const routes: Routes = [
         path: 'register',
         component: RegisterComponent,
         title: 'Register',
+      },
+      {
+        path: 'forget-password',
+        component: ForgetPasswordComponent,
+        title: 'Forget Password',
       },
     ],
   },

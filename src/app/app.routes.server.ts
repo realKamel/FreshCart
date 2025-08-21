@@ -19,6 +19,10 @@ export const serverRoutes: ServerRoute[] = [
     path: 'auth/register',
     renderMode: RenderMode.Client,
   },
+  {
+    path: 'auth/forget-password',
+    renderMode: RenderMode.Client,
+  },
   // anything fallback to SSR
   {
     path: '**',
