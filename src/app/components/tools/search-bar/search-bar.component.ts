@@ -3,33 +3,47 @@ import {
   ElementRef,
   inject,
   OnDestroy,
+  OnInit,
+  PLATFORM_ID,
   signal,
   viewChildren,
 } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { HideOnClickOutsideDirective } from '../../../directives/hide-on-click-outside.directive';
 import { ProductsService } from '../../../services/products.service';
-import { toObservable } from '@angular/core/rxjs-interop';
+// import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   debounceTime,
   distinctUntilChanged,
-  tap,
-  switchMap,
-  of,
-  takeUntil,
   Subject,
+  takeUntil,
+  tap,
 } from 'rxjs';
-import { IProduct } from '../../../interfaces/iproduct';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
   lucideSearch,
   lucideCircleArrowDown,
   lucideLoaderCircle,
 } from '@ng-icons/lucide';
+import { ProductFelids } from '../../../enums/ProductFelids';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { HttpErrorResponse } from '@angular/common/http';
+import { isPlatformBrowser } from '@angular/common';
+import { toast } from 'ngx-sonner';
 
 @Component({
   selector: 'app-search-bar',
-  imports: [RouterLink, HideOnClickOutsideDirective, NgIcon],
+  imports: [
+    RouterLink,
+    HideOnClickOutsideDirective,
+    NgIcon,
+    ReactiveFormsModule,
+  ],
   templateUrl: './search-bar.component.html',
   styleUrl: './search-bar.component.css',
   viewProviders: [
@@ -40,47 +54,21 @@ import {
     }),
   ],
 })
-export class SearchBarComponent implements OnDestroy {
-  searchResults = signal<{ _id: string; title: string }[]>([]);
-  isLoading$ = signal(false);
-  searchTerm$ = signal('');
-  delayedSearchTerm$ = signal('');
+export class SearchBarComponent implements OnInit, OnDestroy {
+  protected searchResults = signal<{ id: string; title: string }[]>([]);
+  protected isLoading = signal(false);
+  protected isResultsDisplayed = signal(false);
+  searchForm = new FormGroup({
+    search: new FormControl<string>('', Validators.minLength(2)),
+  });
   private readonly _ProductsService = inject(ProductsService);
+  protected focusedIndex = signal<number>(-1);
+  private searchResultElements = viewChildren<ElementRef>('searchItem');
+  private readonly _PLATFORM_ID = inject(PLATFORM_ID);
+  private readonly _Router = inject(Router);
   private readonly destroy$ = new Subject<void>();
-  focusedIndex = signal<number>(-1);
-  searchResultElements = viewChildren<ElementRef>('searchItem');
-  constructor() {
-    toObservable(this.searchTerm$)
-      .pipe(
-        debounceTime(300),
-        distinctUntilChanged(),
-        tap(() => this.isLoading$.set(true)),
-        switchMap((word) => {
-          if (!word.trim()) {
-            return of([] as IProduct[]);
-          }
-          return this._ProductsService.getAllProducts(word);
-        }),
-        takeUntil(this.destroy$),
-      )
-      .subscribe((res) => {
-        if (Array.isArray(res)) {
-          this.searchResults.set(res);
-        } else {
-          const filteredValues = res.data
-            .filter((v) =>
-              v.title.toLowerCase().includes(this.searchTerm$().toLowerCase()),
-            )
-            .map((v) => ({ _id: v._id, title: v.title }));
 
-          this.searchResults.set(filteredValues);
-          console.log(filteredValues);
-        }
-
-        this.isLoading$.set(false);
-      });
-  }
-
+  //FIXME user should be able to navigate with up/down arrows
   navigateSearchResultKeyboard(event: KeyboardEvent) {
     //TODO
     // Only handle up/down if results are visible
@@ -103,10 +91,59 @@ export class SearchBarComponent implements OnDestroy {
     }
   }
 
-  clearSearchInput() {
-    console.log(this.searchTerm$());
-    this.searchTerm$.set('');
-    this.delayedSearchTerm$.set('');
+  ngOnInit(): void {
+    this.searchForm.controls.search.valueChanges
+      .pipe(
+        distinctUntilChanged(),
+        debounceTime(400),
+        tap(() => this.isLoading.set(true)),
+      )
+      .subscribe((searchValue) => {
+        console.log(searchValue);
+        if (searchValue?.trim && searchValue !== '') {
+          this._ProductsService
+            .getAllProducts({
+              fields: [ProductFelids.id, ProductFelids.title],
+              limit: 200,
+            })
+            .pipe(takeUntil(this.destroy$))
+            .subscribe({
+              next: (_result) => {
+                const res = _result.data;
+                if (searchValue != null) {
+                  this.searchResults.set(
+                    res.filter((p) =>
+                      p.title
+                        .toLowerCase()
+                        .includes(searchValue?.toLowerCase()),
+                    ),
+                  );
+                } else {
+                  this.searchResults.set(res);
+                }
+                this.isLoading.set(false);
+                this.isResultsDisplayed.set(true);
+              },
+              error: (err: HttpErrorResponse) => {
+                if (isPlatformBrowser(this._PLATFORM_ID)) {
+                  toast.error(err.error.message);
+                } else {
+                  console.error(err.error);
+                }
+              },
+            });
+        } else {
+          this.searchResults.set([]);
+          this.isLoading.set(false);
+        }
+      });
+  }
+  DetailedSearch() {
+    this._Router.navigate(['/search', this.searchForm.controls.search.value]);
+    this.hideSearchResult();
+  }
+  hideSearchResult() {
+    this.isResultsDisplayed.set(false);
   }
   ngOnDestroy(): void {
     this.destroy$.next();

@@ -1,49 +1,51 @@
 <div class="hidden w-full px-1 md:flex justify-center items-center">
   <div class="w-full relative">
-    <div appHideOnClickOutside (hideOnClickOutside)="clearSearchInput()">
-      <p>{{ this.delayedSearchTerm$() }}</p>
-      <div class="relative w-full">
+    <div appHideOnClickOutside (hideOnClickOutside)="hideSearchResult()">
+      <form
+        class="relative w-full"
+        [formGroup]="searchForm"
+        (ngSubmit)="DetailedSearch()"
+      >
         <input
+          formControlName="search"
           (keydown)="navigateSearchResultKeyboard($event)"
-          [value]="searchTerm$()"
-          (input)="searchTerm$.set($any($event.target).value)"
           type="text"
-          id="Search"
+          id="search"
           placeholder="What You are Looking For?"
           class="mt-0.5 w-full focus:ring-emerald-600 rounded border-gray-300 pe-10 shadow-sm sm:text-sm"
         />
-
         <span class="absolute inset-y-0 right-2 grid w-8 place-content-center">
           <button
-            type="button"
+            type="submit"
             aria-label="Submit"
             class="rounded-full size-8 flex justify-center items-center p-1.5 text-gray-700 transition-colors hover:bg-gray-100"
           >
             <ng-icon
               class="size-full"
-              [class]="isLoading$() === true ? 'animate-spin' : ''"
-              [name]="isLoading$() ? 'lucideLoaderCircle' : 'lucideSearch'"
+              [class]="isLoading() === true ? 'animate-spin' : ''"
+              [name]="isLoading() ? 'lucideLoaderCircle' : 'lucideSearch'"
             ></ng-icon>
           </button>
         </span>
-      </div>
+      </form>
     </div>
-    <ul
-      role="menu"
-      [class]="searchResults().length > 0 ? 'border' : ''"
-      class="absolute end-0 top-12 z-30 w-full overflow-hidden rounded border-emerald-300 bg-white shadow-sm"
-    >
-      @for (item of searchResults().slice(0, 10); track $index) {
-        <li
-          #searchItem
-          class="block px-3 py-2 cursor-pointer text-sm font-medium text-gray-700 transition-colors hover:bg-emerald-50 hover:text-gray-900"
-          tabindex="-1"
-          role="menuitem"
-          [routerLink]="['/product', item._id]"
-        >
-          {{ item.title }}
-        </li>
-      }
-    </ul>
+    @if (isResultsDisplayed()) {
+      <ul
+        role="menu"
+        [class]="searchResults().length > 0 ? 'border' : ''"
+        class="absolute end-0 top-12 z-30 w-full overflow-hidden rounded border-emerald-300 bg-white shadow-sm"
+      >
+        @for (item of searchResults().slice(0, 10); track $index) {
+          <li
+            class="block px-3 py-2 cursor-pointer text-sm font-medium text-gray-700 transition-colors hover:bg-emerald-50 hover:text-gray-900"
+            tabindex="-1"
+            role="menuitem"
+            [routerLink]="['/product', item.id]"
+          >
+            {{ item.title }}
+          </li>
+        }
+      </ul>
+    }
   </div>
 </div>
