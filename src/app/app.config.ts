@@ -13,7 +13,7 @@ import {
 import { routes } from './app.routes';
 import {
   provideClientHydration,
-  withEventReplay,
+  withIncrementalHydration,
 } from '@angular/platform-browser';
 import {
   provideHttpClient,
@@ -33,7 +33,7 @@ export const appConfig: ApplicationConfig = {
       }),
       withViewTransitions(),
     ),
-    provideClientHydration(withEventReplay()),
+    provideClientHydration(withIncrementalHydration()),
     provideHttpClient(withFetch(), withInterceptors([headerInterceptor])),
     importProvidersFrom(NgxSpinnerModule),
   ],
