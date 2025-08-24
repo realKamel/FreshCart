@@ -1,0 +1,15 @@
+export enum ProductFelids {
+  title = 'title',
+  price = 'price',
+  sold = 'sold',
+  ratingsQuantity = 'ratingsQuantity',
+  slug = 'slug',
+  description = 'description',
+  quantity = 'quantity',
+  imageCover = 'imageCover',
+  ratingsAverage = 'ratingsAverage',
+  createdAt = 'createdAt',
+  updatedAt = 'updatedAt',
+  images = 'images',
+  id = 'id',
+}

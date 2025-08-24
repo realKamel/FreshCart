@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from './components/home/home.component';
-import { NotfoundComponent } from './components/notfound/notfound.component';
 import { LogInComponent } from './components/log-in/log-in.component';
 import { RegisterComponent } from './components/register/register.component';
 import { AuthLayoutComponent } from './layout/auth-layout/auth-layout.component';
@@ -9,8 +8,7 @@ import { authGuard } from './guards/auth.guard';
 import { CartComponent } from './components/cart/cart.component';
 import { loggedinGuard } from './guards/loggedin.guard';
 import { ProductDetailsComponent } from './components/product-details/product-details.component';
-import { BrandComponent } from './components/brand/brand.component';
-import { ForgetPasswordComponent } from './components/forget-password/forget-password.component';
+import { ProductsSearchComponent } from './components/products-search/products-search.component';
 
 export const routes: Routes = [
   {
@@ -24,7 +22,10 @@ export const routes: Routes = [
       },
       { path: 'home', component: HomeComponent, title: 'Home' },
       { path: 'product/:id', component: ProductDetailsComponent },
-      { path: 'brand/:id', component: BrandComponent },
+      { path: 'search/:query', component: ProductsSearchComponent },
+      { path: 'search/:field/:id', component: ProductsSearchComponent },
+
+      //must be logged in routes
       {
         path: 'cart',
         component: CartComponent,
@@ -50,14 +51,20 @@ export const routes: Routes = [
       },
       {
         path: 'forget-password',
-        component: ForgetPasswordComponent,
         title: 'Forget Password',
+        loadComponent: () =>
+          import('./components/forget-password/forget-password.component').then(
+            (c) => c.ForgetPasswordComponent,
+          ),
       },
     ],
   },
   {
     path: '**',
-    component: NotfoundComponent,
     title: 'Not Found',
+    loadComponent: () =>
+      import('./components/notfound/notfound.component').then(
+        (c) => c.NotfoundComponent,
+      ),
   },
 ];

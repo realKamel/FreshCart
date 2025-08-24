@@ -11,4 +11,10 @@
   <p style="color: white">Loading...</p>
 </ngx-spinner> -->
 
-<app-footer></app-footer>
+@defer (hydrate never) {
+  <app-footer></app-footer>
+} @placeholder {
+  <div class="w-full">
+    <span class="loader animate-spin"></span>
+  </div>
+}
