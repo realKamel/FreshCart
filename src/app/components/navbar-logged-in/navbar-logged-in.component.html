@@ -1,315 +1,275 @@
-<!-- delivery Modal -->
-<div [class]="isAddressModalCollapsed() ? 'hidden' : 'block'">
-  <div
-    class="fixed inset-0 z-[51] grid place-content-center bg-black/50 p-4"
-    role="dialog"
-    aria-modal="true"
-    aria-labelledby="modalTitle"
-  >
-    <div class="w-[65rem] overflow-auto rounded-lg bg-white p-6 shadow-lg">
-      <div>
-        <h2 id="modalTitle" class="text-xl font-bold text-gray-900 sm:text-2xl">
-          Select Delivery Address
-        </h2>
-      </div>
+<header>
+  <!-- delivery Modal -->
+  <div [class]="isAddressModalCollapsed() ? 'hidden' : 'block'">
+    @defer (hydrate on viewport) {
+      <div
+        class="fixed inset-0 z-[51] grid place-content-center bg-black/50 p-4"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="modalTitle"
+        tabindex="-1"
+      >
+        <div class="w-4xl rounded-lg bg-white p-6 shadow-lg">
+          <div>
+            <h2
+              id="modalTitle"
+              class="text-xl font-bold text-gray-900 sm:text-2xl"
+            >
+              Select Delivery Address
+            </h2>
+          </div>
 
-      <div class="mt-2 w-full">
-        <div class="space-y-3 bg-red-500">
-          <span class="sr-only">Delivery</span>
-          @for (
-            item of this._AddressesService.userAddresses$().data;
-            track item._id
-          ) {
-            <div>
-              <label
-                for="DeliveryStandard"
-                class="flex items-center justify-between gap-4 rounded border border-gray-300 bg-white p-3 text-sm font-medium shadow-sm transition-colors hover:bg-gray-50 has-checked:border-emerald-600 has-checked:ring-1 has-checked:ring-emerald-600"
-              >
-                <div>
-                  <h3 class="text-lg">{{ item.name }}</h3>
-                  <p class="text-gray-700">
-                    <span>Details: </span>
-                    <span>
-                      {{ item.details }}
-                    </span>
-                  </p>
-                  <p class="text-gray-700">
-                    <span>City: </span>
-                    <span>
-                      {{ item.city }}
-                    </span>
-                  </p>
-                  <p class="text-gray-700">
-                    <span> Phone: </span>
-                    <span>
-                      {{ item.phone }}
-                    </span>
-                  </p>
+          <div class="mt-2 w-full h-96 overflow-y-auto overflow-x-hidden">
+            <div
+              class="space-y-1 h-full"
+              role="radiogroup"
+              aria-label="Delivery Addresses"
+              id="address-list"
+            >
+              @for (
+                item of this._AddressesService.userAddresses$().data;
+                track item._id
+              ) {
+                <div class="relative p-2">
+                  <label
+                    for="address-{{ item._id }}"
+                    class="flex items-start justify-between gap-4 rounded border border-gray-300 bg-white p-3 text-sm font-medium shadow-sm transition-colors hover:bg-gray-50 has-checked:border-emerald-600 has-checked:ring-1 has-checked:ring-emerald-600 cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-600"
+                    tabindex="0"
+                    role="radio"
+                    aria-checked="true"
+                  >
+                    <div>
+                      <h3 class="text-lg font-semibold text-gray-900">
+                        {{ item.name }}
+                      </h3>
+
+                      <p class="text-gray-700 mt-1">
+                        <span class="font-medium">Details:</span>
+                        <span> {{ item.details }} </span>
+                      </p>
+
+                      <p class="text-gray-700 mt-1">
+                        <span class="font-medium">City:</span>
+                        <span> {{ item.city }} </span>
+                      </p>
+
+                      <p class="text-gray-700 mt-1">
+                        <span class="font-medium">Phone:</span>
+                        <span> {{ item.phone }} </span>
+                      </p>
+                    </div>
+
+                    <input
+                      type="radio"
+                      name="DeliveryOption"
+                      value="{{ item._id }}"
+                      id="address-{{ item._id }}"
+                      class="sr-only"
+                    />
+                  </label>
                 </div>
-                <input
-                  type="radio"
-                  name="DeliveryOption"
-                  value="{{ item._id }}"
-                  id="DeliveryStandard"
-                  class="sr-only"
-                />
-              </label>
-            </div>
-            <div>
-              <label
-                for="DeliveryStandard"
-                class="flex items-center justify-between gap-4 rounded border border-gray-300 bg-white p-3 text-sm font-medium shadow-sm transition-colors hover:bg-gray-50 has-checked:border-emerald-600 has-checked:ring-1 has-checked:ring-emerald-600"
-              >
-                <div>
-                  <h3 class="text-lg">{{ item.name }}</h3>
-                  <p class="text-gray-700">
-                    <span>Details: </span>
-                    <span>
-                      {{ item.details }}
-                    </span>
-                  </p>
-                  <p class="text-gray-700">
-                    <span>City: </span>
-                    <span>
-                      {{ item.city }}
-                    </span>
-                  </p>
-                  <p class="text-gray-700">
-                    <span> Phone: </span>
-                    <span>
-                      {{ item.phone }}
-                    </span>
-                  </p>
+              } @empty {
+                <div class="flex h-full justify-center items-center">
+                  <p class="text-2xl text-gray-500">No Addresses Yet</p>
                 </div>
-                <input
-                  type="radio"
-                  name="DeliveryOption"
-                  value="{{ item._id }}"
-                  id="DeliveryStandard"
-                  class="sr-only"
-                />
-              </label>
+              }
             </div>
-            <div>
-              <label
-                for="DeliveryStandard"
-                class="flex items-center justify-between gap-4 rounded border border-gray-300 bg-white p-3 text-sm font-medium shadow-sm transition-colors hover:bg-gray-50 has-checked:border-emerald-600 has-checked:ring-1 has-checked:ring-emerald-600"
-              >
-                <div>
-                  <h3 class="text-lg">{{ item.name }}</h3>
-                  <p class="text-gray-700">
-                    <span>Details: </span>
-                    <span>
-                      {{ item.details }}
-                    </span>
-                  </p>
-                  <p class="text-gray-700">
-                    <span>City: </span>
-                    <span>
-                      {{ item.city }}
-                    </span>
-                  </p>
-                  <p class="text-gray-700">
-                    <span> Phone: </span>
-                    <span>
-                      {{ item.phone }}
-                    </span>
-                  </p>
-                </div>
-                <input
-                  type="radio"
-                  name="DeliveryOption"
-                  value="{{ item._id }}"
-                  id="DeliveryStandard"
-                  class="sr-only"
-                />
-              </label>
-            </div>
-          }
+          </div>
+        </div>
+
+        <div class="mt-6 flex justify-end gap-2">
+          <button
+            type="button"
+            (click)="toggleAddressModal()"
+            class="rounded cursor-pointer bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-200"
+          >
+            Cancel
+          </button>
+          <button
+            type="button"
+            class="rounded cursor-pointer bg-white border border-emerald-600 text-emerald-600 px-4 py-2 text-sm font-medium hover:text-white transition-colors hover:bg-emerald-700"
+          >
+            Edit Addresses
+          </button>
+          <button
+            type="button"
+            class="rounded cursor-pointer bg-emerald-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-emerald-700"
+          >
+            Confirm
+          </button>
         </div>
       </div>
-    </div>
-    <div class="mt-6 flex justify-end gap-2">
-      <button
-        type="button"
-        (click)="toggleAddressModal()"
-        class="rounded cursor-pointer bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-200"
-      >
-        Cancel
-      </button>
-
-      <button
-        type="button"
-        class="rounded cursor-pointer bg-emerald-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-emerald-700"
-      >
-        Confirm
-      </button>
-    </div>
+    }
   </div>
-</div>
-<!-- end delivery Modal -->
-<section
-  class="bg-white/50 fixed top-0 left-0 right-0 z-50 backdrop-blur-sm border-emerald-500 border-b-2"
->
-  <div class="mx-auto container-fluid px-4 sm:px-6 lg:px-8">
-    <div class="flex justify-between h-16 items-center gap-x-2">
-      <!-- logo -->
-      <div class="grid justify-center items-center">
-        <div class="md:flex md:items-center md:gap-12">
-          <a class="block text-emerald-600 cursor-pointer" routerLink="home">
-            <span class="sr-only">Home</span>
-            <div class="logo">
+  <!-- end delivery Modal -->
+  <section
+    class="bg-white/50 fixed top-0 left-0 right-0 z-50 backdrop-blur-sm border-emerald-500 border-b-2"
+  >
+    <div class="mx-auto container-fluid px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between h-16 items-center gap-x-2">
+        <!-- logo -->
+        <div class="grid justify-center items-center">
+          <div class="md:flex md:items-center md:gap-12">
+            <a class="block text-emerald-600 cursor-pointer" routerLink="home">
+              <span class="sr-only">Home</span>
+              <div class="logo">
+                <p
+                  class="font-medium text-2xl hover:text-emerald-700 transition-colors duration-200 text-nowrap"
+                >
+                  Fresh Cart
+                </p>
+              </div>
+            </a>
+          </div>
+        </div>
+        <div class="max-w-[12rem] ms-1">
+          <button
+            class="grid grid-cols-6 cursor-pointer hover:opacity-70 transition-all duration-200"
+            type="button"
+            (click)="toggleAddressModal()"
+          >
+            <span class="col-span-6 text-start text-gray-700">Deliver to</span>
+            <div class="col-span-5">
               <p
-                class="font-medium text-2xl hover:text-emerald-700 transition-colors duration-200 text-nowrap"
+                class="text-gray-700 whitespace-nowrap overflow-ellipsis overflow-hidden font-medium"
               >
-                Fresh Cart
+                {{ this._AddressesService.userAddresses$().data.at(0)?.name }} -
+                {{ this._AddressesService.userAddresses$().data.at(0)?.city }} -
+                {{
+                  this._AddressesService.userAddresses$().data.at(0)?.details
+                }}
               </p>
             </div>
-          </a>
+            <ng-icon
+              class="col-span-1 ms-1 self-center"
+              name="lucideCircleArrowDown"
+            ></ng-icon>
+          </button>
         </div>
-      </div>
-      <div class="max-w-3xs ms-1">
-        <button
-          class="grid grid-cols-6 cursor-pointer hover:opacity-70 transition-all duration-200"
-          type="button"
-          (click)="toggleAddressModal()"
+        <!-- search Bar -->
+        <div class="grow shrink">
+          <app-search-bar></app-search-bar>
+        </div>
+        <!-- end Search Bar -->
+        <div
+          appHideOnClickOutside
+          (hideOnClickOutside)="isMenuCollapsed() === false ? toggleMenu() : ''"
         >
-          <span class="col-span-6 text-start text-gray-700">Deliver to</span>
-          <div class="col-span-5">
-            <p
-              class="text-gray-700 whitespace-nowrap overflow-ellipsis overflow-hidden font-medium"
+          <div class="flex gap-x-4 justify-center items-center">
+            <button
+              type="button"
+              title="User"
+              class="max-w-[12rem] flex text-lg text-gray-700 justify-center items-center relative transition-all duration-150 cursor-pointer"
+              (click)="toggleMenu()"
             >
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique
-              hic temporibus asperiores optio alias amet!
-            </p>
-          </div>
-          <ng-icon
-            class="col-span-1 self-center"
-            name="lucideCircleArrowDown"
-          ></ng-icon>
-        </button>
-      </div>
-      <!-- search Bar -->
-      <div class="grow shrink">
-        <app-search-bar></app-search-bar>
-      </div>
-      <!-- end Search Bar -->
-      <div
-        appHideOnClickOutside
-        (hideOnClickOutside)="isMenuCollapsed() === false ? toggleMenu() : ''"
-      >
-        <div class="flex gap-x-4 justify-center items-center">
-          <button
-            type="button"
-            title="User"
-            class="max-w-3xs flex text-lg text-gray-700 justify-center items-center relative transition-all duration-150 cursor-pointer"
-            (click)="toggleMenu()"
-          >
-            <span
-              class="hover:opacity-70 text-end transition-all duration-150 cursor-pointer whitespace-nowrap overflow-ellipsis overflow-hidden"
-            >
-              Ahlan, {{ this.userName() | titlecase }}
-            </span>
-            <div [class]="isMenuCollapsed() ? 'hidden' : 'block'">
-              <div
-                class="absolute left-0 end-0 top-7 z-30 w-fit overflow-hidden rounded border border-emerald-500 bg-white shadow-sm"
+              <span
+                class="hover:opacity-70 text-end transition-all duration-150 cursor-pointer whitespace-nowrap overflow-ellipsis overflow-hidden"
               >
-                <div role="menu">
-                  <a
-                    routerLink="orders"
-                    class="flex gap-2 text-nowrap items-center px-3 py-2 text-gray-700 text-sm font-medium transition-colors hover:bg-emerald-50 hover:text-emerald-700"
-                    role="menuitem"
-                  >
-                    <ng-icon name="lucideBoxes"></ng-icon>
-                    My Orders
-                  </a>
-
-                  <a
-                    routerLink="user-addresses"
-                    class="flex gap-2 text-nowrap items-center px-3 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-emerald-50 hover:text-emerald-700"
-                    role="menuitem"
-                  >
-                    <ng-icon name="lucideMapPinned"></ng-icon>
-                    My Addresses
-                  </a>
-
-                  <a
-                    routerLink="profile"
-                    class="flex gap-2 text-nowrap items-center px-3 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-emerald-50 hover:text-emerald-700"
-                    role="menuitem"
-                  >
-                    <ng-icon name="lucideCircleUserRound"></ng-icon>
-                    My Profile
-                  </a>
-                </div>
-
-                <button
-                  type="button"
-                  (click)="Logout()"
-                  class="flex gap-2 items-center cursor-pointer w-full px-3 py-2 text-left text-sm font-medium text-red-700 transition-colors hover:bg-red-50"
+                Ahlan, {{ this.userName() | titlecase }}
+              </span>
+              <div [class]="isMenuCollapsed() ? 'hidden' : 'block'">
+                <div
+                  class="absolute left-0 end-0 top-7 z-30 w-fit overflow-hidden rounded border border-emerald-500 bg-white shadow-sm"
                 >
-                  <ng-icon name="lucideLogOut"></ng-icon>
-                  Log out
-                </button>
+                  <div role="menu">
+                    <a
+                      routerLink="orders"
+                      class="flex gap-2 text-nowrap items-center px-3 py-2 text-gray-700 text-sm font-medium transition-colors hover:bg-emerald-50 hover:text-emerald-700"
+                      role="menuitem"
+                    >
+                      <ng-icon name="lucideBoxes"></ng-icon>
+                      My Orders
+                    </a>
+
+                    <a
+                      routerLink="user-addresses"
+                      class="flex gap-2 text-nowrap items-center px-3 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-emerald-50 hover:text-emerald-700"
+                      role="menuitem"
+                    >
+                      <ng-icon name="lucideMapPinned"></ng-icon>
+                      My Addresses
+                    </a>
+
+                    <a
+                      routerLink="profile"
+                      class="flex gap-2 text-nowrap items-center px-3 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-emerald-50 hover:text-emerald-700"
+                      role="menuitem"
+                    >
+                      <ng-icon name="lucideCircleUserRound"></ng-icon>
+                      My Profile
+                    </a>
+                  </div>
+
+                  <button
+                    type="button"
+                    (click)="Logout()"
+                    class="flex gap-2 items-center cursor-pointer w-full px-3 py-2 text-left text-sm font-medium text-red-700 transition-colors hover:bg-red-50"
+                  >
+                    <ng-icon name="lucideLogOut"></ng-icon>
+                    Log out
+                  </button>
+                </div>
               </div>
-            </div>
-            <span
-              class="flex justify-center mx-1 items-center hover:opacity-70 transition-all duration-150 cursor-pointer"
-            >
-              <ng-icon
-                class="cursor-pointer flex justify-center items-center"
-                name="lucideCircleArrowDown"
-              ></ng-icon>
-            </span>
-          </button>
-          <button
-            type="button"
-            class="hover:opacity-70 text-gray-700 text-lg transition-all duration-150 cursor-pointer"
-            routerLink="wishlist"
-          >
-            <div class="w-full flex justify-center items-center gap-1 relative">
-              <p>wishlist</p>
-              <ng-icon name="lucideHeart"></ng-icon>
               <span
-                class="absolute top-[-10px] left-[100%] text-xs items-center justify-center rounded-full bg-emerald-100 p-1 text-emerald-900"
+                class="flex justify-center mx-1 items-center hover:opacity-70 transition-all duration-150 cursor-pointer"
               >
-                @if (isWishlistLoading$()) {
-                  <ng-icon
-                    class="animate-spin"
-                    name="lucideLoaderCircle"
-                  ></ng-icon>
-                } @else {
-                  {{ wishlistItemsCount() }}
-                }
+                <ng-icon
+                  class="cursor-pointer flex justify-center items-center"
+                  name="lucideCircleArrowDown"
+                ></ng-icon>
               </span>
-            </div>
-          </button>
-          <button
-            type="button"
-            class="hover:opacity-70 text-gray-700 transition-all duration-150 cursor-pointer"
-            routerLink="cart"
-          >
-            <div
-              class="w-full text-lg flex justify-center items-center gap-1 relative"
+            </button>
+            <button
+              type="button"
+              class="hover:opacity-70 text-gray-700 text-lg transition-all duration-150 cursor-pointer"
+              routerLink="wishlist"
             >
-              <p>Cart</p>
-              <span
-                class="absolute top-[-10px] left-[100%] text-xs items-center justify-center rounded-full bg-emerald-100 p-1 text-emerald-900"
+              <div
+                class="w-full flex justify-center items-center gap-1 relative"
               >
-                @if (isCartLoading$()) {
-                  <ng-icon
-                    class="animate-spin"
-                    name="lucideLoaderCircle"
-                  ></ng-icon>
-                } @else {
-                  {{ cartCount() }}
-                }
-              </span>
-              <ng-icon name="lucideShoppingCart"></ng-icon>
-            </div>
-          </button>
+                <p>wishlist</p>
+                <ng-icon name="lucideHeart"></ng-icon>
+                <span
+                  class="absolute top-[-10px] left-[100%] text-xs items-center justify-center rounded-full bg-emerald-100 p-1 text-emerald-900"
+                >
+                  @if (isWishlistLoading$()) {
+                    <ng-icon
+                      class="animate-spin"
+                      name="lucideLoaderCircle"
+                    ></ng-icon>
+                  } @else {
+                    {{ wishlistItemsCount() }}
+                  }
+                </span>
+              </div>
+            </button>
+            <button
+              type="button"
+              class="hover:opacity-70 text-gray-700 transition-all duration-150 cursor-pointer"
+              routerLink="cart"
+            >
+              <div
+                class="w-full text-lg flex justify-center items-center gap-1 relative"
+              >
+                <p>Cart</p>
+                <span
+                  class="absolute top-[-10px] left-[100%] text-xs items-center justify-center rounded-full bg-emerald-100 p-1 text-emerald-900"
+                >
+                  @if (isCartLoading$()) {
+                    <ng-icon
+                      class="animate-spin"
+                      name="lucideLoaderCircle"
+                    ></ng-icon>
+                  } @else {
+                    {{ cartCount() }}
+                  }
+                </span>
+                <ng-icon name="lucideShoppingCart"></ng-icon>
+              </div>
+            </button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
+</header>

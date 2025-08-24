@@ -1,4 +1,11 @@
-import { Component, computed, inject, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  computed,
+  inject,
+  OnDestroy,
+  OnInit,
+  PLATFORM_ID,
+} from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
 import { CartService } from '../../services/cart.service';
 import { ICartItem } from '../../interfaces/icart-item';
@@ -6,7 +13,11 @@ import { toast } from 'ngx-sonner';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { lucideTrash } from '@ng-icons/lucide';
-import { CurrencyPipe, NgOptimizedImage } from '@angular/common';
+import {
+  CurrencyPipe,
+  isPlatformBrowser,
+  NgOptimizedImage,
+} from '@angular/common';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
@@ -22,6 +33,7 @@ export class CartComponent implements OnInit, OnDestroy {
   );
   private readonly destroy$ = new Subject<void>();
   readonly _CartService = inject(CartService);
+  private readonly _PLATFORM_ID = inject(PLATFORM_ID);
   readonly cartItems = computed<ICartItem[]>(
     () => this._CartService.userCart().data.products,
   );
@@ -35,7 +47,11 @@ export class CartComponent implements OnInit, OnDestroy {
           this._CartService.userCart.set(result);
         },
         error: (err: HttpErrorResponse) => {
-          toast.error(err.error.message);
+          if (isPlatformBrowser(this._PLATFORM_ID)) {
+            toast.error(err.error.message);
+          } else {
+            console.error(err);
+          }
         },
       });
   }

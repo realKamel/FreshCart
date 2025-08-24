@@ -121,6 +121,7 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
         });
     }
   }
+  //FIXME not working well
   toggleItemInWishlist(id: string) {
     toast.info('loading');
     if (this.isProductInWishlist$()) {
@@ -154,20 +155,11 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
         });
     }
   }
+  //TODO Implement this
   changeItemInCartCount() {
     console.log('change Count');
   }
 
-  //  (swiperprogress)="onProgress($any($event))"
-  // (swiperslidechange)="onSlideChange()"
-  // onProgress(event: CustomEvent<[Swiper, number]>) {
-  //   const [swiper, progress] = event.detail;
-  //   console.log(progress, swiper);
-  // }
-
-  // onSlideChange() {
-  //   console.log('slide changed');
-  // }
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();

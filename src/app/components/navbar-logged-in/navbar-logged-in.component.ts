@@ -3,6 +3,7 @@ import { HideOnClickOutsideDirective } from './../../directives/hide-on-click-ou
 import {
   Component,
   computed,
+  // CUSTOM_ELEMENTS_SCHEMA,
   inject,
   OnDestroy,
   OnInit,
@@ -68,7 +69,6 @@ export class NavbarLoggedInComponent implements OnInit, OnDestroy {
     () => this._WishlistService.userWishlist().count,
   );
   userName = computed(() => this._AuthService.userInfo().name);
-  // isLoading$ = signal(false);
   isCartLoading$ = signal(false);
   isWishlistLoading$ = signal(false);
   private readonly _AuthService = inject(AuthService);
