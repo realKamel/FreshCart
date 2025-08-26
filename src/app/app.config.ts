@@ -22,6 +22,7 @@ import {
 } from '@angular/common/http';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { headerInterceptor } from './interceptors/header.interceptor';
+import { errorInterceptor } from './interceptors/error.interceptor';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
@@ -34,7 +35,10 @@ export const appConfig: ApplicationConfig = {
       withViewTransitions(),
     ),
     provideClientHydration(withIncrementalHydration()),
-    provideHttpClient(withFetch(), withInterceptors([headerInterceptor])),
+    provideHttpClient(
+      withFetch(),
+      withInterceptors([headerInterceptor, errorInterceptor]),
+    ),
     importProvidersFrom(NgxSpinnerModule),
   ],
 };

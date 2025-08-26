@@ -15,7 +15,6 @@ import {
 import { AuthService } from '../../services/auth.service';
 import { finalize, Subject, takeUntil } from 'rxjs';
 import { toast } from 'ngx-sonner';
-import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-log-in',
@@ -69,9 +68,6 @@ export class LogInComponent implements OnDestroy {
             this._AuthService.setToken(result.token);
             this._Router.navigate(['home']);
             toast.success(result.message);
-          },
-          error: (err: HttpErrorResponse) => {
-            toast.error(err.error.message);
           },
         });
     } else {

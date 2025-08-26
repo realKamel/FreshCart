@@ -17,7 +17,7 @@ import { register } from 'swiper/element/bundle';
 // import { Swiper } from 'swiper/types';
 import { CartService } from '../../services/cart.service';
 import { WishlistService } from '../../services/wishlist.service';
-import { CurrencyPipe, isPlatformBrowser } from '@angular/common';
+import { CurrencyPipe } from '@angular/common';
 import { provideIcons, NgIcon } from '@ng-icons/core';
 import {
   lucideCheckCheck,
@@ -75,11 +75,6 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
             this.product.set(value.data);
             console.log(value);
           },
-          error: (err: HttpErrorResponse) => {
-            if (isPlatformBrowser(this._PLATFORM_ID)) {
-              toast.error(err.error.message);
-            }
-          },
         });
       this.isProductInWishlist$.set(
         this._WishlistService
@@ -101,9 +96,6 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
             this.isProductInCart$.set(false);
             toast.info('Item Removed From Cart');
           },
-          error: (err: HttpErrorResponse) => {
-            toast.error(err.error.message);
-          },
         });
     } else {
       this._CartService
@@ -114,9 +106,6 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
             this._CartService.userCart.set(value);
             this.isProductInCart$.set(true);
             toast.success('Item Added To Cart');
-          },
-          error: (err: HttpErrorResponse) => {
-            toast.error(err.error.message);
           },
         });
     }

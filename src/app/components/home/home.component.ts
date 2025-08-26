@@ -11,8 +11,6 @@ import {
 import { Subject, takeUntil } from 'rxjs';
 import { register } from 'swiper/element/bundle';
 import { BrandsService } from '../../services/brands.service';
-import { HttpErrorResponse } from '@angular/common/http';
-import { toast } from 'ngx-sonner';
 import { RouterLink } from '@angular/router';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
@@ -22,12 +20,7 @@ import {
 } from '@ng-icons/lucide';
 import { phosphorHeartStraight } from '@ng-icons/phosphor-icons/regular';
 import { phosphorHeartStraightFill } from '@ng-icons/phosphor-icons/fill';
-import {
-  CurrencyPipe,
-  isPlatformBrowser,
-  NgOptimizedImage,
-  TitleCasePipe,
-} from '@angular/common';
+import { CurrencyPipe, NgOptimizedImage, TitleCasePipe } from '@angular/common';
 import { CategoriesSliderComponent } from '../tools/categories-slider/categories-slider.component';
 import { ProductsService } from '../../services/products.service';
 import { CategoriesService } from '../../services/categories.service';
@@ -75,11 +68,6 @@ export class HomeComponent implements OnInit, OnDestroy {
         next: (result) => {
           this._ProductsService.products.set(result.data);
         },
-        error: (err: HttpErrorResponse) => {
-          if (isPlatformBrowser(this._PLATFORM_ID)) {
-            toast.error(err.error.message);
-          }
-        },
       });
     this._BrandsService
       .getAllBrands()
@@ -87,11 +75,6 @@ export class HomeComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (result) => {
           this._BrandsService.brands.set(result);
-        },
-        error: (err: HttpErrorResponse) => {
-          if (isPlatformBrowser(this._PLATFORM_ID)) {
-            toast.error(err.error.message);
-          }
         },
       });
 
@@ -106,9 +89,6 @@ export class HomeComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (result) => {
           this.electronicProducts.set(result.data);
-        },
-        error: (err: HttpErrorResponse) => {
-          toast.error(err.error.message);
         },
       });
   }

@@ -1,4 +1,3 @@
-import { HttpErrorResponse } from '@angular/common/http';
 import { Component, computed, inject, OnDestroy, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgIcon, provideIcons } from '@ng-icons/core';
@@ -97,9 +96,6 @@ export class ForgetPasswordComponent implements OnDestroy {
             toast.success(result.message);
             this.stepCounter.update((p) => p + 1);
           },
-          error: (err: HttpErrorResponse) => {
-            toast.error(err.error.message);
-          },
         });
     }
   }
@@ -113,9 +109,6 @@ export class ForgetPasswordComponent implements OnDestroy {
             this.stepCounter.update((p) => p + 1);
             toast.info(result.status);
           },
-          error: (err: HttpErrorResponse) => {
-            toast.error(err.error.message);
-          },
         });
     }
   }
@@ -128,9 +121,6 @@ export class ForgetPasswordComponent implements OnDestroy {
           next: () => {
             toast.success('Password Updated');
             this._Router.navigate(['/auth', 'log-in']);
-          },
-          error: (err: HttpErrorResponse) => {
-            toast.error(err.error.message);
           },
         });
     }

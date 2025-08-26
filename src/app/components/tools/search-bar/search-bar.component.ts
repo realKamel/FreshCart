@@ -32,9 +32,6 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { HttpErrorResponse } from '@angular/common/http';
-import { isPlatformBrowser } from '@angular/common';
-import { toast } from 'ngx-sonner';
 
 @Component({
   selector: 'app-search-bar',
@@ -123,13 +120,6 @@ export class SearchBarComponent implements OnInit, OnDestroy {
                 }
                 this.isLoading.set(false);
                 this.isResultsDisplayed.set(true);
-              },
-              error: (err: HttpErrorResponse) => {
-                if (isPlatformBrowser(this._PLATFORM_ID)) {
-                  toast.error(err.error.message);
-                } else {
-                  console.error(err.error);
-                }
               },
             });
         } else {

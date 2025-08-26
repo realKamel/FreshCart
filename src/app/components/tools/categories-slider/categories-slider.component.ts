@@ -13,8 +13,6 @@ import { Subject, takeUntil } from 'rxjs';
 import { register, SwiperContainer } from 'swiper/element/bundle';
 import { CategoriesService } from '../../../services/categories.service';
 import { isPlatformBrowser } from '@angular/common';
-import { HttpErrorResponse } from '@angular/common/http';
-import { toast } from 'ngx-sonner';
 import { SwiperOptions } from 'swiper/types';
 import { RouterLink } from '@angular/router';
 
@@ -42,11 +40,6 @@ export class CategoriesSliderComponent
       .subscribe({
         next: (result) => {
           this._CategoriesService.categories.set(result);
-        },
-        error: (err: HttpErrorResponse) => {
-          if (isPlatformBrowser(this._PLATFORM_ID)) {
-            toast.error(err.error.message);
-          }
         },
       });
   }

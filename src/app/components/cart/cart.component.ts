@@ -10,14 +10,9 @@ import { Subject, takeUntil } from 'rxjs';
 import { CartService } from '../../services/cart.service';
 import { ICartItem } from '../../interfaces/icart-item';
 import { toast } from 'ngx-sonner';
-import { HttpErrorResponse } from '@angular/common/http';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { lucideTrash } from '@ng-icons/lucide';
-import {
-  CurrencyPipe,
-  isPlatformBrowser,
-  NgOptimizedImage,
-} from '@angular/common';
+import { CurrencyPipe, NgOptimizedImage } from '@angular/common';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
@@ -46,13 +41,6 @@ export class CartComponent implements OnInit, OnDestroy {
         next: (result) => {
           this._CartService.userCart.set(result);
         },
-        error: (err: HttpErrorResponse) => {
-          if (isPlatformBrowser(this._PLATFORM_ID)) {
-            toast.error(err.error.message);
-          } else {
-            console.error(err);
-          }
-        },
       });
   }
   checkOutCart() {
@@ -72,9 +60,6 @@ export class CartComponent implements OnInit, OnDestroy {
             this._CartService.userCart.set(result);
             toast.success(`Updated ${itemTitle} To ${count}`);
           },
-          error: (err: HttpErrorResponse) => {
-            toast.error(err.error.message);
-          },
         });
     } else {
       toast.error(`We Only Have ${item.product.quantity} of ${itemTitle}`);
@@ -91,9 +76,6 @@ export class CartComponent implements OnInit, OnDestroy {
           this._CartService.userCart.set(result);
           toast.success(`Remove ${title} Successfully`);
         },
-        error(err: HttpErrorResponse) {
-          toast.error(err.error.message);
-        },
       });
   }
   clearCart() {
@@ -103,9 +85,6 @@ export class CartComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (result) => {
           toast.success(result.message);
-        },
-        error(err: HttpErrorResponse) {
-          toast.error(err.error.message);
         },
       });
   }
