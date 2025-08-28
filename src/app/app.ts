@@ -4,14 +4,10 @@ import { toast, NgxSonnerToaster } from 'ngx-sonner';
 import { AuthService } from './services/auth.service';
 import { FooterComponent } from './components/footer/footer.component';
 import { Subject } from 'rxjs';
+import { SpinnerComponent } from './components/tools/spinner/spinner.component';
 @Component({
   selector: 'app-root',
-  imports: [
-    RouterOutlet,
-    NgxSonnerToaster,
-    // NgxSpinnerComponent,
-    FooterComponent,
-  ],
+  imports: [RouterOutlet, NgxSonnerToaster, FooterComponent, SpinnerComponent],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })

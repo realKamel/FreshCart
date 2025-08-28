@@ -1,6 +1,5 @@
 import {
   ApplicationConfig,
-  importProvidersFrom,
   provideBrowserGlobalErrorListeners,
   provideZonelessChangeDetection,
 } from '@angular/core';
@@ -20,9 +19,9 @@ import {
   withFetch,
   withInterceptors,
 } from '@angular/common/http';
-import { NgxSpinnerModule } from 'ngx-spinner';
 import { headerInterceptor } from './interceptors/header.interceptor';
 import { errorInterceptor } from './interceptors/error.interceptor';
+import { loadingInterceptor } from './interceptors/loading.interceptor';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
@@ -37,8 +36,11 @@ export const appConfig: ApplicationConfig = {
     provideClientHydration(withIncrementalHydration()),
     provideHttpClient(
       withFetch(),
-      withInterceptors([headerInterceptor, errorInterceptor]),
+      withInterceptors([
+        headerInterceptor,
+        errorInterceptor,
+        loadingInterceptor,
+      ]),
     ),
-    importProvidersFrom(NgxSpinnerModule),
   ],
 };

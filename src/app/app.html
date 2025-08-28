@@ -1,18 +1,11 @@
 <router-outlet></router-outlet>
+
 <ngx-sonner-toaster richColors closeButton />
 
-<!-- <ngx-spinner
-  bdColor="rgba(0, 0, 0, 0.8)"
-  size="large"
-  color="#fff"
-  type="ball-spin"
-  [fullScreen]="true"
->
-  <p style="color: white">Loading...</p>
-</ngx-spinner> -->
+<app-spinner />
 
 @defer (hydrate never) {
-  <app-footer></app-footer>
+  <app-footer />
 } @placeholder {
   <div class="w-full">
     <span class="loader animate-spin"></span>

@@ -20,3 +20,24 @@
   --color-emerald-900: #165134;
   --color-emerald-950: #062d1b;
 }
+
+@dark {
+  --color-emerald-50: #062d1b;
+  --color-emerald-100: #165134;
+  --color-emerald-200: #18633e;
+  --color-emerald-300: #187d4a;
+  --color-emerald-400: #1a9f5b;
+  --color-emerald-500: #27c072;
+  --color-emerald-600: #39d585;
+  --color-emerald-700: #89ecb9;
+  --color-emerald-800: #bdf5d8;
+  --color-emerald-900: #ddfbeb;
+  --color-emerald-950: #f0fdf6;
+
+  /* Swap colors for dark mode */
+  --color-dark-100: #1A1A1A;
+  --color-dark-200: #2C2C2C;
+  --color-gray-400: #B0B0B0;
+  --color-amber-400: #FFC107;
+
+}
