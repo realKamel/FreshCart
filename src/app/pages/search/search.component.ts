@@ -1,4 +1,4 @@
-import { queryParameter } from '../../interfaces/query-parameters';
+import { IQueryParameter } from '../../interfaces/iquery-parameters';
 import { Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
@@ -99,7 +99,7 @@ export class SearchComponent implements OnInit, OnDestroy {
       });
   }
   applyUserFilters(_page?: number) {
-    const q: queryParameter = {};
+    const q: IQueryParameter = {};
     if (this.selectedBrandsId().size > 0) {
       q.brand = [...this.selectedBrandsId()];
     }

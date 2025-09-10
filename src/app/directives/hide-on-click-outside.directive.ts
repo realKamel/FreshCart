@@ -18,7 +18,7 @@ export class HideOnClickOutsideDirective {
   @HostListener('document:click', ['$event.target'])
   public hideOnClickFn(target: EventTarget | null): void {
     const isClickedInside = this._ElementRef.nativeElement.contains(target);
-    console.log(isClickedInside);
+    // console.log(isClickedInside);
     if (!isClickedInside) {
       this.hideOnClickOutside.emit();
     }
