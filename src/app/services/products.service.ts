@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { IProductsResult } from '../interfaces/iproductsresult';
 import { IProduct } from '../interfaces/iproduct';
-import { queryParameter } from '../interfaces/query-parameters';
+import { IQueryParameter } from '../interfaces/iquery-parameters';
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +12,7 @@ import { queryParameter } from '../interfaces/query-parameters';
 export class ProductsService {
   private readonly _HttpClient = inject(HttpClient);
   products = signal<IProduct[]>([]);
-  getAllProducts(q: queryParameter | null): Observable<IProductsResult> {
+  getAllProducts(q: IQueryParameter | null): Observable<IProductsResult> {
     if (q) {
       return this._HttpClient.get<IProductsResult>(
         `${environment.baseUrl}/api/v1/products?${this.generateQuery(q)}`,
@@ -28,7 +28,7 @@ export class ProductsService {
       `${environment.baseUrl}/api/v1/products/${id}`,
     );
   }
-  private generateQuery(_query: queryParameter) {
+  private generateQuery(queryParams: IQueryParameter): string {
     const query = new URLSearchParams();
     // A map to store custom query formats for specific keys
     const specialKeys = {

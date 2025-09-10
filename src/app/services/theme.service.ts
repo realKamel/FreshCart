@@ -1,38 +1,46 @@
+import { isPlatformBrowser } from '@angular/common';
 import {
   DOCUMENT,
   Injectable,
   signal,
   WritableSignal,
   inject,
+  PLATFORM_ID,
 } from '@angular/core';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ThemeService {
-  private themeSignal: WritableSignal<'light' | 'dark'>;
-  readonly _DOCUMENT = inject(DOCUMENT);
+  private readonly themeSignal: WritableSignal<'light' | 'dark'> =
+    signal('light');
+  private readonly _DOCUMENT = inject(DOCUMENT);
+  private readonly _PLATFORM_ID = inject(PLATFORM_ID);
 
   constructor() {
-    const saved =
-      (localStorage.getItem('theme') as 'light' | 'dark') || 'light';
-    this.themeSignal = signal<'light' | 'dark'>(saved);
-    this.applyTheme(saved);
+    if (isPlatformBrowser(this._PLATFORM_ID)) {
+      this.themeSignal = signal(
+        localStorage.getItem('theme') as 'light' | 'dark',
+      );
+      this.applyTheme(this.themeSignal());
+    }
   }
 
   get theme() {
     return this.themeSignal.asReadonly();
   }
-
   toggleTheme() {
-    const next = this.themeSignal() === 'light' ? 'dark' : 'light';
-    this.themeSignal.set(next);
-    localStorage.setItem('theme', next);
-    this.applyTheme(next);
+    this.themeSignal.update((currentTheme) =>
+      currentTheme !== 'light' ? 'light' : 'dark',
+    );
+    localStorage.setItem('theme', this.themeSignal());
+    console.count(this.themeSignal());
+    this.applyTheme(this.themeSignal());
   }
 
   private applyTheme(mode: 'light' | 'dark') {
-    const htmlEl = this._DOCUMENT.documentElement;
-    htmlEl.classList.toggle('dark', mode === 'dark');
+    const el = this._DOCUMENT.documentElement;
+    // console.log(el);
+    el.classList.toggle('dark', mode === 'dark');
   }
 }

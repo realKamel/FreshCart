@@ -1,15 +1,35 @@
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable, signal } from '@angular/core';
+import { computed, inject, Injectable, signal } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { ICartResponse } from '../interfaces/icart-response';
+import { IProduct } from '../interfaces/iproduct';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CartService {
   private readonly _HttpClient = inject(HttpClient);
-  userCart = signal<ICartResponse>({} as ICartResponse);
+  readonly userCart = signal<ICartResponse>({} as ICartResponse);
+  readonly productsIdInCart = computed(() => {
+    const userCart = this.userCart();
+
+    if (userCart.numOfCartItems === 0) {
+      return [];
+    }
+
+    const firstProduct = userCart?.data?.products?.[0]?.product;
+
+    switch (typeof firstProduct) {
+      case 'string':
+        return userCart.data.products.map((p) => p.product as string);
+      case 'object':
+        return userCart.data.products.map((p) => (p.product as IProduct).id);
+      default:
+        return [];
+    }
+  });
+
   getUserCart(): Observable<ICartResponse> {
     return this._HttpClient.get<ICartResponse>(
       `${environment.baseUrl}/api/v1/cart`,

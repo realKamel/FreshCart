@@ -1,5 +1,3 @@
-import { IBrand } from './../interfaces/ibrand';
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { environment } from '../../environments/environment';
@@ -19,7 +17,7 @@ export class BrandsService {
   }
 
   getSpecificBrand(id: string): Observable<IBrandResponse['data']> {
-    return this._HttpClient.get<any>(
+    return this._HttpClient.get<IBrandResponse['data']>(
       `${environment.baseUrl}/api/v1/brands/${id}`,
     );
   }

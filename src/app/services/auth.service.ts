@@ -1,12 +1,21 @@
-import { computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable, PLATFORM_ID, signal } from '@angular/core';
+import {
+  computed,
+  inject,
+  Injectable,
+  PLATFORM_ID,
+  signal,
+} from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { jwtDecode } from 'jwt-decode';
 import { IAuthResponse } from '../interfaces/Iauthresponse';
 import { isPlatformBrowser } from '@angular/common';
 import { IJWTPayloadWithUserData } from '../interfaces/ijwtpayload-with-user-data';
+import { WishlistService } from './wishlist.service';
+import { CartService } from './cart.service';
+import { ICartResponse } from '../interfaces/icart-response';
+import { IWishlistResponse } from '../interfaces/iwishlist-response';
 
 @Injectable({
   providedIn: 'root',
@@ -14,6 +23,8 @@ import { IJWTPayloadWithUserData } from '../interfaces/ijwtpayload-with-user-dat
 export class AuthService {
   private readonly _userToken = signal<string | null>(null);
   readonly getToken = this._userToken.asReadonly();
+  private readonly _WishlistService = inject(WishlistService);
+  private readonly _CartService = inject(CartService);
   setToken(token: string | null) {
     console.warn('token from auth service:', token);
     if (isPlatformBrowser(this._PLATFORM_ID)) {
@@ -84,6 +95,8 @@ export class AuthService {
   signOut() {
     if (isPlatformBrowser(this._PLATFORM_ID)) {
       this.setToken(null);
+      this._CartService.userCart.set({} as ICartResponse);
+      this._WishlistService.userWishlist.set({} as IWishlistResponse);
     }
   }
 }
