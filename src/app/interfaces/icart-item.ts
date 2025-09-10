@@ -3,6 +3,6 @@ import { IProduct } from './iproduct';
 export interface ICartItem {
   count: number;
   _id: string;
-  product: IProduct;
+  product: IProduct | string;
   price: number;
 }

@@ -1,11 +1,11 @@
-export interface queryParameter {
+export interface IQueryParameter {
   sort?: string;
   limit?: number;
   priceGte?: number;
   priceLte?: number;
-  category?: string;
+  category?: string[] | string;
   keyword?: string;
   page?: number;
-  brand?: string;
+  brand?: string[] | string;
   fields?: string[];
 }
