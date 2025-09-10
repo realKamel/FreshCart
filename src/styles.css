@@ -41,3 +41,12 @@
   --color-amber-400: #FFC107;
 
 }
+
+
+app-navbar-logged-in {
+  visibility: hidden;
+}
+
+app-navbar-logged-in.hydrated {
+  visibility: visible;
+}
