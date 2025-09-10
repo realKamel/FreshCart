@@ -8,7 +8,23 @@ export const serverRoutes: ServerRoute[] = [
   },
   //client
   {
-    path: 'cart',
+    path: 'account/cart',
+    renderMode: RenderMode.Client,
+  },
+  {
+    path: 'account/wishlist',
+    renderMode: RenderMode.Client,
+  },
+  {
+    path: 'account/orders',
+    renderMode: RenderMode.Client,
+  },
+  {
+    path: 'account/profile',
+    renderMode: RenderMode.Client,
+  },
+  {
+    path: 'account/addresses',
     renderMode: RenderMode.Client,
   },
   {
