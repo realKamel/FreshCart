@@ -1,0 +1,103 @@
+<div
+  class="relative grid grid-rows-3 items-stretch h-[33rem] w-full overflow-hidden group border bg-white border-gray-200 shadow rounded-lg"
+>
+  @if (isWishlistLoading()) {
+    <button
+      type="button"
+      title="Loading"
+      class="absolute cursor-progress size-8 text-center flex justify-center items-center text-xl end-4 top-4 z-10 rounded-full bg-white p-1.5 shadow-lg text-gray-600/75"
+    >
+      <span class="sr-only">Wishlist</span>
+
+      <ng-icon class="text-center animate-spin" name="lucideLoaderCircle" />
+    </button>
+  } @else {
+    <button
+      type="button"
+      (click)="toggleProductInWishlist(product()._id, product().title)"
+      title="toggle product in Wishlist"
+      [class]="
+        !isProductInWishlist()
+          ? ['text-gray-900', 'hover:text-red-600/75']
+          : ['text-red-600', 'hover:text-gray-600/75']
+      "
+      class="absolute cursor-pointer size-8 flex justify-center items-center text-xl end-4 top-4 z-10 rounded-full bg-white p-1.5 transition-all shadow-lg duration-200"
+    >
+      <span class="sr-only">Wishlist</span>
+
+      @if (!isProductInWishlist()) {
+        <ng-icon name="phosphorHeartStraight" />
+      } @else {
+        <ng-icon name="phosphorHeartStraightFill" />
+      }
+    </button>
+  }
+
+  <figure
+    class="row-span-2 overflow-hidden cursor-pointer flex justify-center items-center"
+  >
+    <img
+      [routerLink]="['/product', product()._id]"
+      [src]="product().imageCover"
+      alt="{{ product().slug }}"
+      class="w-fit h-full cursor-pointer object-cover transition duration-500 group-hover:scale-105"
+    />
+  </figure>
+
+  <div class="row-span-1 grid relative border bg-white border-gray-100 p-3">
+    <div [routerLink]="['/product', product()._id]" class="cursor-pointer">
+      <p class="text-gray-700">
+        E{{ product().price | currency: "GBP" }}
+        <!-- <span class="text-gray-400 line-through">$80</span> -->
+      </p>
+
+      <h3
+        class="mt-1.5 overflow-hidden text-ellipsis line-clamp-1 font-medium text-gray-900"
+      >
+        {{ product().title | titlecase }}
+      </h3>
+    </div>
+
+    <p class="flex gap-x-1 w-fit justify-center items-center">
+      <span class="text-yellow-500 flex justify-center items-center">
+        <ng-icon name="phosphorStarFill" /> {{ product().ratingsAverage }}
+      </span>
+      |
+      <span
+        class="bg-emerald-100 flex justify-center items-center gap-1 text-sm text-emerald-800 font-medium me-2 px-2.5 py-0.5 rounded-sm"
+        >{{ product().ratingsQuantity }} ratings
+      </span>
+    </p>
+    <div class="mt-4 self-end gap-4">
+      @if (isCartLoading()) {
+        <button
+          title="Loading"
+          type="button"
+          class="w-full flex gap-x-0.5 justify-center items-center shadow border rounded-sm bg-white px-4 py-3 text-sm font-medium cursor-progress text-gray-600/75"
+        >
+          <ng-icon class="text-center animate-spin" name="lucideLoaderCircle" />
+        </button>
+      } @else {
+        <button
+          (click)="toggleProductToCart(product()._id, product().title)"
+          [class]="
+            isProductInCart()
+              ? ['border-red-600', 'text-red-600', 'hover:bg-red-600']
+              : ['border-emerald-600', 'text-gray-900', 'hover:bg-emerald-600']
+          "
+          title="Add To Cart"
+          type="button"
+          class="w-full flex gap-x-0.5 justify-center items-center shadow border rounded-sm bg-white px-4 py-3 text-sm font-medium transition-all duration-200 hover:text-white cursor-pointer"
+        >
+          @if (isProductInCart()) {
+            Remove From Cart
+            <ng-icon name="lucideTrash2" />
+          } @else {
+            Add to Cart
+            <ng-icon name="lucideShoppingCart" />
+          }
+        </button>
+      }
+    </div>
+  </div>
+</div>

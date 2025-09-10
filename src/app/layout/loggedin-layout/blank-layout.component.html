@@ -1,10 +1,6 @@
 <div class="mb-[4rem]">
-  @if (this._AuthService.getToken() !== null) {
-    <app-navbar-logged-in></app-navbar-logged-in>
-  } @else {
-    <app-navbar></app-navbar>
-  }
+  <app-navbar-logged-in></app-navbar-logged-in>
 </div>
-<div class="container mx-auto px-4">
+<div class="container mx-auto">
   <router-outlet></router-outlet>
 </div>

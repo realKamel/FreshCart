@@ -10,17 +10,17 @@ import { Subject, takeUntil } from 'rxjs';
 import { CartService } from '../../services/cart.service';
 import { ICartItem } from '../../interfaces/icart-item';
 import { toast } from 'ngx-sonner';
-import { NgIcon, provideIcons } from '@ng-icons/core';
-import { lucideTrash } from '@ng-icons/lucide';
+import { NgIcon } from '@ng-icons/core';
+
 import { CurrencyPipe, NgOptimizedImage } from '@angular/common';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { IProduct } from '../../interfaces/iproduct';
 
 @Component({
   selector: 'app-cart',
   imports: [NgIcon, NgOptimizedImage, CurrencyPipe, ReactiveFormsModule],
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.css',
-  viewProviders: [provideIcons({ lucideTrash })],
 })
 export class CartComponent implements OnInit, OnDestroy {
   isEmptyCart = computed(
@@ -29,8 +29,14 @@ export class CartComponent implements OnInit, OnDestroy {
   private readonly destroy$ = new Subject<void>();
   readonly _CartService = inject(CartService);
   private readonly _PLATFORM_ID = inject(PLATFORM_ID);
-  readonly cartItems = computed<ICartItem[]>(
-    () => this._CartService.userCart().data.products,
+  readonly cartItems = computed(
+    () =>
+      this._CartService.userCart().data.products as {
+        count: number;
+        _id: string;
+        product: IProduct;
+        price: number;
+      }[],
   );
   productCount = new FormControl(1, [Validators.required, Validators.min(1)]);
   ngOnInit(): void {
@@ -47,13 +53,12 @@ export class CartComponent implements OnInit, OnDestroy {
     console.log('TODO');
   }
   changeCartItemCount(item: ICartItem, count: number) {
-    const itemTitle = item.product.title.split(' ', 3).join(' ');
+    const itemTitle = (item.product as IProduct).title.split(' ', 3).join(' ');
     if (!this.productCount.valid) {
       toast.error(`Can't change ${itemTitle} to 0`);
-    } else if (item.product.quantity >= count) {
-      toast.loading(`Change ${itemTitle} To ${count}`);
+    } else if ((item.product as IProduct).quantity >= count) {
       this._CartService
-        .updateCartItemQuantity(item.product._id, count)
+        .updateCartItemQuantity((item.product as IProduct)._id, count)
         .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: (result) => {
@@ -62,7 +67,9 @@ export class CartComponent implements OnInit, OnDestroy {
           },
         });
     } else {
-      toast.error(`We Only Have ${item.product.quantity} of ${itemTitle}`);
+      toast.error(
+        `We Only Have ${(item.product as IProduct).quantity} of ${itemTitle}`,
+      );
     }
   }
   removeItem(id: string, _title: string) {

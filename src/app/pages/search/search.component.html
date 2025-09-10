@@ -1,0 +1,351 @@
+<section class="mt-5 bg-white rounded-lg">
+  <div class="container mx-0 p-10 grid grid-cols-10 gap-x-3 relative">
+    <aside class="flex flex-col gap-x-2 col-span-2 h-screen">
+      <div class="space-y-4">
+        <details
+          class="group relative overflow-hidden rounded border border-gray-300 shadow-sm"
+        >
+          <summary
+            class="flex items-center justify-between gap-2 p-3 text-gray-700 transition-colors hover:text-gray-900 [&::-webkit-details-marker]:hidden"
+          >
+            <span class="text-sm font-medium"> Categories </span>
+
+            <span class="transition-transform group-open:-rotate-180">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="size-4"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M19.5 8.25l-7.5 7.5-7.5-7.5"
+                />
+              </svg>
+            </span>
+          </summary>
+
+          <div
+            class="divide-y divide-gray-300 border-t border-gray-300 bg-white"
+          >
+            <div class="flex items-center justify-between px-3 py-2">
+              <span class="text-sm text-gray-700">
+                {{ this.selectedCategoriesId().size }} Selected
+              </span>
+
+              <button
+                type="button"
+                (click)="this.selectedCategoriesId().clear()"
+                class="text-sm cursor-pointer text-gray-700 underline transition-colors hover:text-gray-900"
+              >
+                Reset
+              </button>
+            </div>
+
+            <fieldset class="p-3">
+              <legend class="sr-only">Checkboxes</legend>
+
+              <div class="flex flex-col items-start gap-3">
+                @for (item of availableCategories(); track item._id) {
+                  <label
+                    [for]="item._id"
+                    class="inline-flex items-center gap-3"
+                  >
+                    <input
+                      (change)="
+                        onCategoryChange(item._id, $event.target.checked)
+                      "
+                      [checked]="selectedCategoriesId().has(item._id)"
+                      type="checkbox"
+                      name="category"
+                      class="size-5 rounded border-gray-300 shadow-sm"
+                      [id]="item._id"
+                    />
+
+                    <span class="text-sm font-medium text-gray-700">
+                      {{ item.name }}
+                    </span>
+                  </label>
+                }
+              </div>
+            </fieldset>
+          </div>
+        </details>
+        <details
+          class="group relative overflow-hidden rounded border border-gray-300 shadow-sm"
+        >
+          <summary
+            class="flex items-center justify-between gap-2 p-3 text-gray-700 transition-colors hover:text-gray-900 [&::-webkit-details-marker]:hidden"
+          >
+            <span class="text-sm font-medium"> Brands </span>
+
+            <span class="transition-transform group-open:-rotate-180">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="size-4"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M19.5 8.25l-7.5 7.5-7.5-7.5"
+                />
+              </svg>
+            </span>
+          </summary>
+
+          <div
+            class="divide-y divide-gray-300 border-t border-gray-300 bg-white"
+          >
+            <div class="flex items-center justify-between px-3 py-2">
+              <span class="text-sm text-gray-700">
+                {{ selectedBrandsId().size }} Selected
+              </span>
+
+              <button
+                type="button"
+                (click)="selectedBrandsId().clear()"
+                class="cursor-pointer text-sm text-gray-700 underline transition-colors hover:text-gray-900"
+              >
+                Reset
+              </button>
+            </div>
+
+            <fieldset class="p-3">
+              <legend class="sr-only">Checkboxes</legend>
+
+              <div class="flex flex-col items-start gap-3">
+                @for (item of availableBrands(); track item._id) {
+                  <label
+                    [for]="item._id"
+                    class="inline-flex items-center gap-3"
+                  >
+                    <input
+                      type="checkbox"
+                      [checked]="this.selectedBrandsId().has(item._id)"
+                      (change)="onBrandChange(item._id, $event.target.checked)"
+                      class="size-5 rounded border-gray-300 shadow-sm"
+                      [id]="item._id"
+                    />
+
+                    <span class="text-sm font-medium text-gray-700">
+                      {{ item.name }}
+                    </span>
+                  </label>
+                }
+              </div>
+            </fieldset>
+          </div>
+        </details>
+        <details
+          class="group relative overflow-hidden rounded border border-gray-300 shadow-sm"
+        >
+          <summary
+            class="flex items-center justify-between gap-2 p-3 text-gray-700 transition-colors hover:text-gray-900 [&::-webkit-details-marker]:hidden"
+          >
+            <span class="text-sm font-medium"> Price </span>
+
+            <span class="transition-transform group-open:-rotate-180">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="size-4"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M19.5 8.25l-7.5 7.5-7.5-7.5"
+                />
+              </svg>
+            </span>
+          </summary>
+
+          <div
+            class="divide-y divide-gray-300 border-t border-gray-300 bg-white"
+          >
+            <div class="flex items-center justify-between px-3 py-2">
+              <span class="text-sm text-gray-700"> Max price is $600 </span>
+
+              <button
+                type="button"
+                class="text-sm text-gray-700 underline transition-colors hover:text-gray-900"
+              >
+                Reset
+              </button>
+            </div>
+
+            <div
+              [formGroup]="filteredPriceRange"
+              class="flex items-center gap-3 p-3"
+            >
+              <label for="MinPrice">
+                <span class="text-sm text-gray-700"> Min </span>
+
+                <input
+                  type="number"
+                  id="MinPrice"
+                  formControlName="priceGte"
+                  class="mt-0.5 w-full rounded border-gray-300 shadow-sm sm:text-sm"
+                />
+              </label>
+
+              <label for="MaxPrice">
+                <span class="text-sm text-gray-700"> Max </span>
+
+                <input
+                  type="number"
+                  id="MaxPrice"
+                  formControlName="PriceLte"
+                  class="mt-0.5 w-full rounded border-gray-300 shadow-sm sm:text-sm"
+                />
+              </label>
+            </div>
+          </div>
+        </details>
+        <div class="flex justify-end items-center z-30">
+          <button
+            class="w-full border py-1 cursor-pointer rounded border-emerald-500 text-emerald-500 hover:text-white hover:bg-emerald-500 transition-all duration-200"
+            title="confirm"
+            (click)="applyUserFilters()"
+            type="button"
+          >
+            Confirm
+          </button>
+        </div>
+      </div>
+    </aside>
+    <div class="col-span-8 flex flex-col gap-2">
+      <div class="mb-2 grid justify-end">
+        <form class="max-w-sm mx-auto">
+          <select
+            (change)="applyUserFilters()"
+            [formControl]="sortCriteria"
+            title="Select Sort Method"
+            id="sortBy"
+            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-emerald-500 focus:border-emerald-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-emerald-500 dark:focus:border-emerald-500"
+          >
+            <option
+              value="null"
+              class="text-emerald-800 hover:bg-emerald-100"
+              [selected]="sortCriteria.value === null"
+            >
+              Sort by Default
+            </option>
+            <option
+              class="hover:bg-emerald-200 text-emerald-800"
+              value="-ratingsQuantity,-ratingsAverage"
+              [selected]="
+                sortCriteria.value === '-ratingsQuantity,-ratingsAverage'
+              "
+            >
+              Sort by Top Rated
+            </option>
+            <option
+              [selected]="sortCriteria.value === '-price'"
+              class="text-emerald-800"
+              value="-price"
+            >
+              Sort by Price: High to Low
+            </option>
+            <option
+              class="text-emerald-800"
+              [selected]="sortCriteria.value === 'price'"
+              value="price"
+            >
+              Sort by Price: Low to High
+            </option>
+          </select>
+        </form>
+      </div>
+      <main class="w-full rounded shadow">
+        <div class="grid grid-cols-12 gap-2 items-center justify-center">
+          @for (item of this.result().data; track item._id) {
+            <app-product-card
+              class="col-span-12 sm:col-span-6 lg:col-span-4 xl:col-span-3"
+              [product]="item"
+            />
+          }
+        </div>
+      </main>
+      @if (result()) {
+        <ul class="flex mt-5 justify-center gap-1 text-gray-900">
+          <li>
+            <button
+              type="button"
+              title="Get Prev Page"
+              (click)="getPrevPage()"
+              class="grid size-8 place-content-center cursor-pointer rounded border border-gray-200 transition-colors hover:bg-gray-50 rtl:rotate-180"
+              aria-label="Previous page"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="size-4"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+            </button>
+          </li>
+
+          @if (result().metadata?.prevPage !== undefined) {
+            <li>
+              <a
+                class="block size-8 rounded border border-gray-200 text-center text-sm/8 font-medium transition-colors hover:bg-gray-50"
+              >
+                {{ result().metadata?.prevPage }}
+              </a>
+            </li>
+          }
+          <li
+            class="block size-8 rounded border border-emerald-600 bg-emerald-600 text-center text-sm/8 font-medium text-white"
+          >
+            {{ result().metadata?.currentPage }}
+          </li>
+          @if (result().metadata?.nextPage !== undefined) {
+            <li
+              class="block size-8 rounded border border-gray-200 text-center text-sm/8 font-medium transition-colors hover:bg-gray-50"
+            >
+              {{ result().metadata?.nextPage }}
+            </li>
+          }
+          <li>
+            <button
+              title="Get Next Page"
+              type="button"
+              (click)="getNextPage()"
+              class="grid size-8 place-content-center rounded border cursor-pointer border-gray-200 transition-colors hover:bg-gray-50 rtl:rotate-180"
+              aria-label="Next page"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="size-4"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+            </button>
+          </li>
+        </ul>
+      }
+    </div>
+  </div>
+</section>

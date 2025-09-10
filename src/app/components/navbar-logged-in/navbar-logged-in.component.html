@@ -1,114 +1,13 @@
 <header>
   <!-- delivery Modal -->
-  <div [class]="isAddressModalCollapsed() ? 'hidden' : 'block'">
-    @defer (hydrate on viewport) {
-      <div
-        class="fixed inset-0 z-[51] grid place-content-center bg-black/50 p-4"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="modalTitle"
-        tabindex="-1"
-      >
-        <div class="w-4xl rounded-lg bg-white p-6 shadow-lg">
-          <div>
-            <h2
-              id="modalTitle"
-              class="text-xl font-bold text-gray-900 sm:text-2xl"
-            >
-              Select Delivery Address
-            </h2>
-          </div>
-
-          <div class="mt-2 w-full h-96 overflow-y-auto overflow-x-hidden">
-            <div
-              class="space-y-1 h-full"
-              role="radiogroup"
-              aria-label="Delivery Addresses"
-              id="address-list"
-            >
-              @for (
-                item of this._AddressesService.userAddresses$().data;
-                track item._id
-              ) {
-                <div class="relative p-2">
-                  <label
-                    for="address-{{ item._id }}"
-                    class="flex items-start justify-between gap-4 rounded border border-gray-300 bg-white p-3 text-sm font-medium shadow-sm transition-colors hover:bg-gray-50 has-checked:border-emerald-600 has-checked:ring-1 has-checked:ring-emerald-600 cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-600"
-                    tabindex="0"
-                    role="radio"
-                    aria-checked="true"
-                  >
-                    <div>
-                      <h3 class="text-lg font-semibold text-gray-900">
-                        {{ item.name }}
-                      </h3>
-
-                      <p class="text-gray-700 mt-1">
-                        <span class="font-medium">Details:</span>
-                        <span> {{ item.details }} </span>
-                      </p>
-
-                      <p class="text-gray-700 mt-1">
-                        <span class="font-medium">City:</span>
-                        <span> {{ item.city }} </span>
-                      </p>
-
-                      <p class="text-gray-700 mt-1">
-                        <span class="font-medium">Phone:</span>
-                        <span> {{ item.phone }} </span>
-                      </p>
-                    </div>
-
-                    <input
-                      type="radio"
-                      name="DeliveryOption"
-                      value="{{ item._id }}"
-                      id="address-{{ item._id }}"
-                      class="sr-only"
-                    />
-                  </label>
-                </div>
-              } @empty {
-                <div class="flex h-full justify-center items-center">
-                  <p class="text-2xl text-gray-500">No Addresses Yet</p>
-                </div>
-              }
-            </div>
-          </div>
-        </div>
-
-        <div class="mt-6 flex justify-end gap-2">
-          <button
-            type="button"
-            (click)="toggleAddressModal()"
-            class="rounded cursor-pointer bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-200"
-          >
-            Cancel
-          </button>
-          <button
-            type="button"
-            class="rounded cursor-pointer bg-white border border-emerald-600 text-emerald-600 px-4 py-2 text-sm font-medium hover:text-white transition-colors hover:bg-emerald-700"
-          >
-            Edit Addresses
-          </button>
-          <button
-            type="button"
-            class="rounded cursor-pointer bg-emerald-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-emerald-700"
-          >
-            Confirm
-          </button>
-        </div>
-      </div>
-    }
-  </div>
+  <ng-container #addressModal />
   <!-- end delivery Modal -->
   <section
-    class="bg-white/50 fixed top-0 left-0 right-0 z-50 backdrop-blur-sm border-emerald-500 border-b-2"
+    class="bg-white/50 transition-all duration-300 fixed top-0 left-0 right-0 z-50 backdrop-blur-sm border-emerald-500 border-b-2"
   >
     <div class="mx-auto container-fluid px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between h-16 items-center gap-x-2">
-        <!-- logo -->
-        <div class="grid justify-center items-center">
+      <div class="flex justify-center h-16 items-center gap-x-2">
+        <div class="logo grid justify-center items-center">
           <div class="md:flex md:items-center md:gap-12">
             <a class="block text-emerald-600 cursor-pointer" routerLink="home">
               <span class="sr-only">Home</span>
@@ -122,94 +21,122 @@
             </a>
           </div>
         </div>
-        <div class="max-w-[12rem] ms-1">
-          <button
-            class="grid grid-cols-6 cursor-pointer hover:opacity-70 transition-all duration-200"
-            type="button"
-            (click)="toggleAddressModal()"
-          >
-            <span class="col-span-6 text-start text-gray-700">Deliver to</span>
-            <div class="col-span-5">
-              <p
-                class="text-gray-700 whitespace-nowrap overflow-ellipsis overflow-hidden font-medium"
+        @if (isUserLoggedIn()) {
+          <div class="max-w-[12rem] ms-1">
+            <button
+              class="grid grid-cols-6 w-full cursor-pointer hover:opacity-70 transition-all duration-200"
+              type="button"
+              (click)="openAddressModal()"
+            >
+              <span class="col-span-6 text-start text-gray-700"
+                >Deliver to</span
               >
-                {{ this._AddressesService.userAddresses$().data.at(0)?.name }} -
-                {{ this._AddressesService.userAddresses$().data.at(0)?.city }} -
-                {{
-                  this._AddressesService.userAddresses$().data.at(0)?.details
-                }}
-              </p>
-            </div>
-            <ng-icon
-              class="col-span-1 ms-1 self-center"
-              name="lucideCircleArrowDown"
-            ></ng-icon>
-          </button>
-        </div>
-        <!-- search Bar -->
-        <div class="grow shrink">
-          <app-search-bar></app-search-bar>
-        </div>
-        <!-- end Search Bar -->
-        <div
-          appHideOnClickOutside
-          (hideOnClickOutside)="isMenuCollapsed() === false ? toggleMenu() : ''"
-        >
+              <div class="col-span-5">
+                <p
+                  class="text-gray-700 whitespace-nowrap overflow-ellipsis overflow-hidden font-medium"
+                >
+                  @if (!userAddress()) {
+                    <p>No Address yet</p>
+                  } @else {
+                    {{ userAddress().name }}
+                    -
+                    {{ userAddress().city }}
+                    -
+                    {{ userAddress().details }}
+                  }
+                </p>
+              </div>
+              <ng-icon
+                class="col-span-1 ms-1 self-center"
+                name="lucideCircleArrowDown"
+              ></ng-icon>
+            </button>
+          </div>
+        }
+        @defer (on immediate; hydrate on immediate) {
+          <div class="search min-w-20 max-w-screen-lg grow shrink">
+            <app-search-bar />
+          </div>
+        }
+        @if (isUserLoggedIn()) {
           <div class="flex gap-x-4 justify-center items-center">
             <button
+              appHideOnClickOutside
+              (hideOnClickOutside)="
+                isMenuCollapsed() === false ? toggleUserMenu() : ''
+              "
               type="button"
               title="User"
+              (click)="toggleUserMenu()"
               class="max-w-[12rem] flex text-lg text-gray-700 justify-center items-center relative transition-all duration-150 cursor-pointer"
-              (click)="toggleMenu()"
             >
               <span
                 class="hover:opacity-70 text-end transition-all duration-150 cursor-pointer whitespace-nowrap overflow-ellipsis overflow-hidden"
               >
                 Ahlan, {{ this.userName() | titlecase }}
               </span>
-              <div [class]="isMenuCollapsed() ? 'hidden' : 'block'">
-                <div
-                  class="absolute left-0 end-0 top-7 z-30 w-fit overflow-hidden rounded border border-emerald-500 bg-white shadow-sm"
-                >
-                  <div role="menu">
-                    <a
-                      routerLink="orders"
-                      class="flex gap-2 text-nowrap items-center px-3 py-2 text-gray-700 text-sm font-medium transition-colors hover:bg-emerald-50 hover:text-emerald-700"
-                      role="menuitem"
-                    >
-                      <ng-icon name="lucideBoxes"></ng-icon>
-                      My Orders
-                    </a>
-
-                    <a
-                      routerLink="user-addresses"
-                      class="flex gap-2 text-nowrap items-center px-3 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-emerald-50 hover:text-emerald-700"
-                      role="menuitem"
-                    >
-                      <ng-icon name="lucideMapPinned"></ng-icon>
-                      My Addresses
-                    </a>
-
-                    <a
-                      routerLink="profile"
-                      class="flex gap-2 text-nowrap items-center px-3 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-emerald-50 hover:text-emerald-700"
-                      role="menuitem"
-                    >
-                      <ng-icon name="lucideCircleUserRound"></ng-icon>
-                      My Profile
-                    </a>
-                  </div>
-
-                  <button
-                    type="button"
-                    (click)="Logout()"
-                    class="flex gap-2 items-center cursor-pointer w-full px-3 py-2 text-left text-sm font-medium text-red-700 transition-colors hover:bg-red-50"
+              @defer (on immediate; hydrate on interaction) {
+                <div [class]="isMenuCollapsed() ? 'hidden' : 'block'">
+                  <div
+                    class="absolute left-0 end-0 top-7 z-30 w-fit overflow-hidden rounded border border-emerald-500 bg-white shadow-sm"
                   >
-                    <ng-icon name="lucideLogOut"></ng-icon>
-                    Log out
-                  </button>
+                    <div role="menubar">
+                      <a
+                        [routerLink]="['/account', 'orders']"
+                        class="flex gap-2 text-nowrap items-center px-3 py-2 text-gray-700 text-sm font-medium transition-colors hover:bg-emerald-50 hover:text-emerald-700"
+                        role="menuitem"
+                      >
+                        <ng-icon name="lucideBoxes"></ng-icon>
+                        My Orders
+                      </a>
+                      <a
+                        [routerLink]="['/account', 'profile']"
+                        class="flex gap-2 text-nowrap items-center px-3 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-emerald-50 hover:text-emerald-700"
+                        role="menuitem"
+                      >
+                        <ng-icon name="lucideCircleUserRound"></ng-icon>
+                        My Profile
+                      </a>
+                      <a
+                        class="flex gap-2 text-nowrap items-center px-3 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-emerald-50 hover:text-emerald-700"
+                        role="menuitem"
+                        type="button"
+                        title="Toggle Theme"
+                        tabindex="0"
+                      >
+                        <label class="inline-flex items-center cursor-pointer">
+                          <input
+                            type="checkbox"
+                            (click)="
+                              $event.stopPropagation();
+                              this._ThemeService.toggleTheme()
+                            "
+                            [checked]="_ThemeService.theme() === 'dark'"
+                            class="sr-only peer"
+                          />
+                          <div
+                            class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-emerald-300 dark:peer-focus:ring-emerald-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-emerald-600 dark:peer-checked:bg-emerald-600"
+                          ></div>
+                          <span
+                            class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300"
+                          >
+                            {{ _ThemeService.theme() | titlecase }} Mode</span
+                          >
+                        </label>
+                      </a>
+                    </div>
+
+                    <button
+                      type="button"
+                      (click)="Logout()"
+                      class="flex gap-2 items-center cursor-pointer w-full px-3 py-2 text-left text-sm font-medium text-red-700 transition-colors hover:bg-red-50"
+                    >
+                      <ng-icon name="lucideLogOut"></ng-icon>
+                      Log out
+                    </button>
+                  </div>
                 </div>
-              </div>
+              }
               <span
                 class="flex justify-center mx-1 items-center hover:opacity-70 transition-all duration-150 cursor-pointer"
               >
@@ -222,7 +149,7 @@
             <button
               type="button"
               class="hover:opacity-70 text-gray-700 text-lg transition-all duration-150 cursor-pointer"
-              routerLink="wishlist"
+              [routerLink]="['account', 'wishlist']"
             >
               <div
                 class="w-full flex justify-center items-center gap-1 relative"
@@ -246,7 +173,7 @@
             <button
               type="button"
               class="hover:opacity-70 text-gray-700 transition-all duration-150 cursor-pointer"
-              routerLink="cart"
+              [routerLink]="['/account', 'cart']"
             >
               <div
                 class="w-full text-lg flex justify-center items-center gap-1 relative"
@@ -268,7 +195,50 @@
               </div>
             </button>
           </div>
-        </div>
+        } @else {
+          <div class="flex items-center gap-4">
+            <div class="sm:flex sm:gap-4">
+              <a
+                class="rounded-md bg-emerald-600 px-5 py-2.5 text-sm font-medium text-white shadow-sm"
+                [routerLink]="['/auth', 'log-in']"
+              >
+                Login
+              </a>
+
+              <div class="hidden sm:flex">
+                <a
+                  class="rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-emerald-600"
+                  [routerLink]="['/auth', 'register']"
+                >
+                  Register
+                </a>
+              </div>
+            </div>
+
+            <div class="block md:hidden">
+              <button
+                type="button"
+                title="side-menu"
+                class="rounded-sm bg-gray-100 p-2 text-gray-600 transition hover:text-gray-600/75"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="size-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M4 6h16M4 12h16M4 18h16"
+                  />
+                </svg>
+              </button>
+            </div>
+          </div>
+        }
       </div>
     </div>
   </section>

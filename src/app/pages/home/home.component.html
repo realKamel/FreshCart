@@ -1,0 +1,100 @@
+<section class="posters mb-2">
+  <swiper-container
+    class="mySwiper"
+    pagination-clickable="true"
+    pagination="true"
+    autoplay-delay="3500"
+  >
+    @for (item of images; track $index) {
+      <swiper-slide>
+        <figure><img [src]="item" class="w-full" alt="" /></figure>
+      </swiper-slide>
+    }
+  </swiper-container>
+</section>
+<section class="categories-slider">
+  <h2 class="text-center text-5xl font-bold my-2">Shop By Categories</h2>
+  <app-categories-slider></app-categories-slider>
+</section>
+<div class="ad relative p-2 h-64">
+  <img
+    loading="eager"
+    class="w-full"
+    ngSrc="/images/banner1.avif"
+    fill
+    alt=""
+  />
+</div>
+<section class="brands-slider">
+  <h2 class="text-center text-5xl font-bold my-2">Explore Our Brands</h2>
+  <div class="relative p-3">
+    <swiper-container
+      class="mySwiper"
+      slides-per-view="4"
+      grid-fill="row"
+      scrollbar-hide="true"
+      grid-rows="2"
+      free-mode="true"
+      keyboard="true"
+      space-between="10"
+    >
+      @for (item of _BrandsService.brands().data; track item._id) {
+        <swiper-slide
+          class="border-2 rounded-lg border-gray-200 relative cursor-pointer"
+          [routerLink]="['/search', 'brand', item._id]"
+        >
+          <div
+            class="gap-1 w-full grid grid-cols-6 items-center bg-emerald-100 rounded-lg"
+          >
+            <div class="col-span-3 overflow-hidden">
+              <img
+                [src]="item.image"
+                class="w-full rounded-s-lg hover:scale-[110%] transition duration-200"
+                alt="{{ item.slug }}"
+              />
+            </div>
+            <div class="col-span-3 text-emerald-900">
+              <p class="text-start">{{ item.name }}</p>
+              <p
+                class="text-start flex gap-x-1 transition duration-200 items-center"
+              >
+                More Products <ng-icon name="lucideArrowRight"></ng-icon>
+              </p>
+            </div>
+          </div>
+        </swiper-slide>
+      }
+    </swiper-container>
+  </div>
+</section>
+<div class="ad relative p-2 h-64">
+  <img
+    loading="eager"
+    class="w-full"
+    ngSrc="/images/banner2.avif"
+    fill
+    alt=""
+  />
+</div>
+@defer (on viewport; hydrate on viewport) {
+  <section
+    class="products container mx-auto p-3 my-2 slider rounded-lg shadow bg-slate-200"
+  >
+    <h2 class="text-5xl font-bold my-2">Top Deals</h2>
+    <div class="p-10">
+      <app-products-slider [products]="this._ProductsService.products()" />
+    </div>
+  </section>
+} @placeholder {
+  <p>loading</p>
+}
+@defer (on viewport; hydrate on viewport) {
+  <section class="electronics">
+    <h2 class="text-5xl font-bold mt-4">Highly Rated in Electronics</h2>
+    <div class="p-10">
+      <app-products-slider [products]="this.electronicProducts()" />
+    </div>
+  </section>
+} @placeholder {
+  <p>loading</p>
+}
