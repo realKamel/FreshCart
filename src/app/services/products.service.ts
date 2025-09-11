@@ -30,28 +30,30 @@ export class ProductsService {
   }
   private generateQuery(queryParams: IQueryParameter): string {
     const query = new URLSearchParams();
-    // A map to store custom query formats for specific keys
-    const specialKeys = {
+    const specialKeys: Record<string, string> = {
       category: 'category[in]',
       priceGte: 'price[gte]',
       priceLte: 'price[lte]',
     };
-    for (const key in _query) {
-      const value = _query[key as keyof queryParameter];
-      if (value) {
-        if (key in specialKeys) {
-          query.append(
-            specialKeys[key as keyof typeof specialKeys],
-            String(value),
-          );
-        } else if (key === 'fields') {
-          const wantedFields = (value as string[]).join(',');
-          query.append(key, wantedFields);
+
+    Object.entries(queryParams).forEach(([key, value]) => {
+      if (!value) return; // Skip null or undefined values
+
+      if (key in specialKeys) {
+        if (key === 'category' && Array.isArray(value)) {
+          value.forEach((item) => query.append(specialKeys[key], String(item)));
         } else {
-          query.append(key, String(value));
+          query.append(specialKeys[key], String(value));
         }
+      } else if (key === 'brand' && Array.isArray(value)) {
+        value.forEach((item) => query.append(key, item));
+      } else if (key === 'fields' && Array.isArray(value)) {
+        query.append(key, value.join(','));
+      } else {
+        query.append(key, String(value));
       }
-    }
+    });
+
     console.log(query.toString());
     return query.toString();
   }
