@@ -15,10 +15,15 @@ import {
 } from '@angular/forms';
 import { ProductCardComponent } from '../../components/product-card/product-card.component';
 import { IProduct } from '../../interfaces/iproduct';
+import { ProductCardSkeletonComponent } from '../../components/product-card-skeleton/product-card-skeleton.component';
 
 @Component({
   selector: 'app-products-search',
-  imports: [ReactiveFormsModule, ProductCardComponent],
+  imports: [
+    ReactiveFormsModule,
+    ProductCardComponent,
+    ProductCardSkeletonComponent,
+  ],
   templateUrl: './search.component.html',
   styleUrl: './search.component.css',
 })
@@ -40,6 +45,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   protected readonly selectedBrandsId = signal<Set<string>>(new Set());
   protected readonly searchWord = signal('');
   protected readonly result = signal<IProductsResult>({} as IProductsResult);
+  protected readonly isLoading = signal(false);
   private readonly destroy$ = new Subject<void>();
   protected filteredPriceRange = new FormGroup(
     {
@@ -118,33 +124,39 @@ export class SearchComponent implements OnInit, OnDestroy {
     if (_page) {
       q.page = _page;
     }
+    this.isLoading.set(true);
     this._ProductsService
       .getAllProducts(q)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (_result) => {
           this.result.set(_result);
+          this.isLoading.set(false);
         },
       });
   }
   getProductsByFieldAndId(field: string, id: string) {
     //FIXME refactor this function
     if (field === 'brand') {
+      this.isLoading.set(true);
       this._ProductsService
         .getAllProducts({ brand: id })
         .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: (_result) => {
             this.result.set(_result);
+            this.isLoading.set(false);
           },
         });
     } else if (field === 'category') {
+      this.isLoading.set(true);
       this._ProductsService
         .getAllProducts({ category: id })
         .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: (_result) => {
             this.result.set(_result);
+            this.isLoading.set(false);
           },
         });
     } else {
@@ -152,6 +164,7 @@ export class SearchComponent implements OnInit, OnDestroy {
     }
   }
   getProductByKeyword(query: string | null) {
+    this.isLoading.set(true);
     this._ProductsService
       .getAllProducts(null)
       .pipe(takeUntil(this.destroy$))
@@ -163,6 +176,7 @@ export class SearchComponent implements OnInit, OnDestroy {
               p.title.toLocaleLowerCase().includes(query.toLocaleLowerCase()),
             );
           }
+          this.isLoading.set(false);
         },
       });
   }

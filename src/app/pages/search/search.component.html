@@ -268,11 +268,22 @@
       </div>
       <main class="w-full rounded shadow">
         <div class="grid grid-cols-12 gap-2 items-center justify-center">
-          @for (item of this.result().data; track item._id) {
-            <app-product-card
-              class="col-span-12 sm:col-span-6 lg:col-span-4 xl:col-span-3"
-              [product]="item"
-            />
+          @if (isLoading()) {
+            @for (
+              emptyCard of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+              track $index
+            ) {
+              <app-product-card-skeleton
+                class="col-span-12 sm:col-span-6 lg:col-span-4 xl:col-span-3"
+              />
+            }
+          } @else {
+            @for (item of this.result().data; track item._id) {
+              <app-product-card
+                class="col-span-12 sm:col-span-6 lg:col-span-4 xl:col-span-3"
+                [product]="item"
+              />
+            }
           }
         </div>
       </main>
