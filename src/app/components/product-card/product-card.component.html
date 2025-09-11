@@ -1,5 +1,5 @@
 <div
-  class="relative grid grid-rows-3 items-stretch h-[33rem] w-full overflow-hidden group border bg-white border-gray-200 shadow rounded-lg"
+  class="relative grid grid-rows-12 md:grid-rows-3 items-stretch h-[28rem] md:h-[33rem] w-full overflow-hidden group border bg-white border-gray-200 shadow rounded-lg"
 >
   @if (isWishlistLoading()) {
     <button
@@ -34,7 +34,7 @@
   }
 
   <figure
-    class="row-span-2 overflow-hidden cursor-pointer flex justify-center items-center"
+    class="row-span-7 md:row-span-2 overflow-hidden cursor-pointer flex justify-center items-center"
   >
     <img
       [routerLink]="['/product', product()._id]"
@@ -44,7 +44,9 @@
     />
   </figure>
 
-  <div class="row-span-1 grid relative border bg-white border-gray-100 p-3">
+  <div
+    class="row-span-5 md:row-span-1 grid relative border bg-white border-gray-100 p-3"
+  >
     <div [routerLink]="['/product', product()._id]" class="cursor-pointer">
       <p class="text-gray-700">
         E{{ product().price | currency: "GBP" }}

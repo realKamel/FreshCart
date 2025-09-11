@@ -1,14 +1,4 @@
-<swiper-container
-  #slider
-  class="mySwiper"
-  space-between="10"
-  pagination="true"
-  pagination-dynamic-bullets="true"
-  slides-per-view="5"
-  free-mode="true"
-  keyboard="true"
-  navigation="true"
->
+<swiper-container #slider class="mySwiper" init="false">
   @for (item of this.products(); track item._id) {
     <swiper-slide class="p-1">
       <app-product-card [product]="item" />

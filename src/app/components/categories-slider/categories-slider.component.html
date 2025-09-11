@@ -1,4 +1,4 @@
-<swiper-container #swiperContainer class="mySwiper h-64" init="false">
+<swiper-container #swiperContainer class="mySwiper" init="false">
   @for (item of this._CategoriesService.categories().data; track item._id) {
     <swiper-slide>
       <div
@@ -6,7 +6,7 @@
         [routerLink]="['/search', 'category', item._id]"
       >
         <div
-          class="relative w-full overflow-hidden flex justify-center items-center"
+          class="relative w-full rounded-full overflow-hidden flex justify-center items-center"
         >
           <img
             priority

@@ -22,15 +22,16 @@ import { TitleCasePipe } from '@angular/common';
 import { ThemeService } from '../../services/theme.service';
 import { AddressesModalComponent } from '../addresses-modal/addresses-modal.component';
 import { AddressesService } from '../../services/addresses.service';
+import { ResponsiveBreakpointsService } from '../../services/responsive-breakpoints.service';
 
 @Component({
   selector: 'app-navbar-logged-in',
   imports: [
     NgIcon,
-    RouterLink,
     HideOnClickOutsideDirective,
     SearchBarComponent,
     TitleCasePipe,
+    RouterLink,
   ],
   templateUrl: './navbar-logged-in.component.html',
   styleUrl: './navbar-logged-in.component.css',
@@ -45,6 +46,8 @@ export class NavbarLoggedInComponent implements OnInit, OnDestroy {
   protected readonly _ThemeService = inject(ThemeService);
   private readonly _Router = inject(Router);
   protected readonly _AddressesService = inject(AddressesService);
+  private readonly _Responsive = inject(ResponsiveBreakpointsService);
+  protected readonly isMobile = computed(() => !this._Responsive.isDesktop());
 
   //properties
   protected readonly isMenuCollapsed = signal(true);
@@ -125,6 +128,7 @@ export class NavbarLoggedInComponent implements OnInit, OnDestroy {
       this.closeAddressModal(),
     );
   }
+
   closeAddressModal() {
     this.modalAddressRef?.destroy();
   }

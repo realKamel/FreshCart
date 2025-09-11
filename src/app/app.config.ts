@@ -49,9 +49,17 @@ import {
   lucideUserPlus,
   lucideX,
 } from '@ng-icons/lucide';
-import { phosphorHeartStraight } from '@ng-icons/phosphor-icons/regular';
 import {
+  phosphorDotsThreeOutline,
+  phosphorHeartStraight,
+  phosphorHouse,
+  phosphorShoppingCart,
+} from '@ng-icons/phosphor-icons/regular';
+import {
+  phosphorDotsThreeOutlineFill,
   phosphorHeartStraightFill,
+  phosphorHouseFill,
+  phosphorShoppingCartFill,
   phosphorStarFill,
 } from '@ng-icons/phosphor-icons/fill';
 // import { loadingInterceptor } from './interceptors/loading.interceptor';
@@ -72,7 +80,7 @@ export const appConfig: ApplicationConfig = {
       withInterceptors([
         headerInterceptor,
         errorInterceptor,
-        loadingInterceptor,
+        // loadingInterceptor,
       ]),
     ),
     provideIcons({
@@ -104,6 +112,12 @@ export const appConfig: ApplicationConfig = {
       lucideCheckCheck,
       lucideStar,
       lucideUserPlus,
+      phosphorHouse,
+      phosphorHouseFill,
+      phosphorShoppingCart,
+      phosphorShoppingCartFill,
+      phosphorDotsThreeOutline,
+      phosphorDotsThreeOutlineFill,
     }),
   ],
 };

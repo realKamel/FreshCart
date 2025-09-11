@@ -12,32 +12,28 @@
     }
   </swiper-container>
 </section>
-<section class="categories-slider">
-  <h2 class="text-center text-5xl font-bold my-2">Shop By Categories</h2>
+<section>
+  <h2 class="text-center text-3xl md:text-5xl font-bold my-2">
+    Shop By Categories
+  </h2>
   <app-categories-slider></app-categories-slider>
 </section>
-<div class="ad relative p-2 h-64">
+<div class="p-1 w-full flex justify-center">
   <img
-    loading="eager"
-    class="w-full"
+    priority
     ngSrc="/images/banner1.avif"
-    fill
-    alt=""
+    class="object-cover"
+    width="1440"
+    height="200"
+    alt="Banner"
   />
 </div>
 <section class="brands-slider">
-  <h2 class="text-center text-5xl font-bold my-2">Explore Our Brands</h2>
+  <h2 class="text-center text-3xl md:text-5xl font-bold my-2">
+    Explore Our Brands
+  </h2>
   <div class="relative p-3">
-    <swiper-container
-      class="mySwiper"
-      slides-per-view="4"
-      grid-fill="row"
-      scrollbar-hide="true"
-      grid-rows="2"
-      free-mode="true"
-      keyboard="true"
-      space-between="10"
-    >
+    <swiper-container #brandSlider class="mySwiper" init="false">
       @for (item of _BrandsService.brands().data; track item._id) {
         <swiper-slide
           class="border-2 rounded-lg border-gray-200 relative cursor-pointer"
@@ -67,21 +63,22 @@
     </swiper-container>
   </div>
 </section>
-<div class="ad relative p-2 h-64">
+<div class="p-1 w-full flex justify-center">
   <img
     loading="eager"
     class="w-full"
+    width="1440"
+    height="250"
     ngSrc="/images/banner2.avif"
-    fill
     alt=""
   />
 </div>
 @defer (on viewport; hydrate on viewport) {
   <section
-    class="products container mx-auto p-3 my-2 slider rounded-lg shadow bg-slate-200"
+    class="products container mx-auto p-2 my-2 slider rounded-lg shadow bg-slate-200"
   >
-    <h2 class="text-5xl font-bold my-2">Top Deals</h2>
-    <div class="p-10">
+    <h2 class="text-3xl md:text-5xl font-bold my-2">Top Deals</h2>
+    <div class="p-1">
       <app-products-slider [products]="this._ProductsService.products()" />
     </div>
   </section>
@@ -89,9 +86,11 @@
   <p>loading</p>
 }
 @defer (on viewport; hydrate on viewport) {
-  <section class="electronics">
-    <h2 class="text-5xl font-bold mt-4">Highly Rated in Electronics</h2>
-    <div class="p-10">
+  <section class="electronics p-2">
+    <h2 class="text-3xl md:text-5xl font-bold mt-4">
+      Highly Rated in Electronics
+    </h2>
+    <div class="p-1">
       <app-products-slider [products]="this.electronicProducts()" />
     </div>
   </section>

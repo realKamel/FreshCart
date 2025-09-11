@@ -51,24 +51,23 @@ export class CategoriesSliderComponent
     // free-mode="true"
     if (isPlatformBrowser(this._PLATFORM_ID)) {
       const el = this.categoriesSlider()?.nativeElement as SwiperContainer;
-      console.log('categories-container', el);
       const option = {
-        slidesPerView: 2,
+        slidesPerView: 2.5,
         spaceBetween: 10,
         navigation: true,
         freeMode: true,
         breakpoints: {
           640: {
-            slidesPerView: 2,
+            slidesPerView: 2.5,
             pagination: false,
             spaceBetween: 20,
           },
           768: {
-            slidesPerView: 4,
+            slidesPerView: 4.5,
             pagination: { clickable: true },
           },
           1024: {
-            slidesPerView: 6,
+            slidesPerView: 6.5,
             spaceBetween: 10,
           },
         },
