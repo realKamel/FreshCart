@@ -2,7 +2,7 @@ import { ICartItem } from './icart-item';
 import { IOrderAddress } from './IOrderAddress';
 import { IUser } from './iuser';
 
-export interface IOrders {
+export interface IOrder {
   shippingAddress: IOrderAddress;
   taxPrice: number;
   shippingPrice: number;

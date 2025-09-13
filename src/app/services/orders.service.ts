@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { environment } from '../../environments/environment.development';
 import { AuthService } from './auth.service';
 import { Observable } from 'rxjs';
 import { IOrderAddress } from '../interfaces/IOrderAddress';
 import { ICheckOutResponse } from '../interfaces/icheckout-response';
-import { IOrders } from '../interfaces/iorders';
+import { IOrder } from '../interfaces/iorder';
 
 @Injectable({
   providedIn: 'root',
@@ -14,8 +14,9 @@ import { IOrders } from '../interfaces/iorders';
 export class OrdersService {
   private readonly _HttpClient = inject(HttpClient);
   private readonly _AuthService = inject(AuthService);
-  getUserOrders(): Observable<IOrders> {
-    return this._HttpClient.get<IOrders>(
+  readonly userOrders = signal<IOrder[]>([]);
+  getUserOrders(): Observable<IOrder[]> {
+    return this._HttpClient.get<IOrder[]>(
       `${environment.baseUrl}/api/v1/orders/user/${this._AuthService.userInfo().id}`,
     );
   }
