@@ -43,11 +43,14 @@ export class ProductsSliderComponent implements AfterViewInit {
       const el = this.productSlider()?.nativeElement as SwiperContainer;
       const opt: SwiperOptions = {
         keyboard: true,
+        mousewheel: {
+          forceToAxis: true,
+        },
         pagination: {
           dynamicBullets: true,
         },
         spaceBetween: 10,
-        freeMode: true,
+
         navigation: true,
         slidesPerView: 1.5,
         breakpoints: {

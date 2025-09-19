@@ -14,7 +14,7 @@
 </section>
 <section>
   <h2 class="text-center text-3xl md:text-5xl font-bold my-2">
-    Shop By Categories
+    Featured Categories
   </h2>
   <app-categories-slider></app-categories-slider>
 </section>
@@ -52,9 +52,9 @@
             <div class="col-span-3 text-emerald-900">
               <p class="text-start">{{ item.name }}</p>
               <p
-                class="text-start flex gap-x-1 transition duration-200 items-center"
+                class="text-start flex gap-x-1 transition duration-200 items-center text-nowrap"
               >
-                More Products <ng-icon name="lucideArrowRight"></ng-icon>
+                More <ng-icon name="lucideArrowRight"></ng-icon>
               </p>
             </div>
           </div>
@@ -85,6 +85,16 @@
 } @placeholder {
   <p>loading</p>
 }
+<div class="w-full flex justify-center p-3">
+  <img
+    loading="eager"
+    class="w-full rounded"
+    width="1440"
+    height="300"
+    ngSrc="/images/banner3.avif"
+    alt=""
+  />
+</div>
 @defer (on viewport; hydrate on viewport) {
   <section class="electronics p-2">
     <h2 class="text-3xl md:text-5xl font-bold mt-4">
