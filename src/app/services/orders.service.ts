@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { environment } from '../../environments/environment.development';
@@ -34,8 +33,8 @@ export class OrdersService {
   createCashOrder(
     cartId: string,
     _shippingAddress: IOrderAddress,
-  ): Observable<any> {
-    return this._HttpClient.post(
+  ): Observable<{ status: string; data: IOrder }> {
+    return this._HttpClient.post<{ status: string; data: IOrder }>(
       `https://ecommerce.routemisr.com/api/v1/orders/${cartId}`,
       {
         shippingAddress: _shippingAddress,

@@ -3,7 +3,7 @@ import { IAddressResponse } from '../interfaces/iaddress-response';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment.development';
 import { Observable } from 'rxjs';
-import { IAddress } from '../interfaces/iaddress';
+import { INewAddress } from '../interfaces/inew-address';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +11,7 @@ import { IAddress } from '../interfaces/iaddress';
 export class AddressesService {
   private readonly _HttpClient = inject(HttpClient);
   userAddresses$ = signal<IAddressResponse>({} as IAddressResponse);
-  addNewUserAddresses(address: IAddress): Observable<IAddressResponse> {
+  addNewUserAddresses(address: INewAddress): Observable<IAddressResponse> {
     return this._HttpClient.post<IAddressResponse>(
       `${environment.baseUrl}/api/v1/addresses`,
       address,

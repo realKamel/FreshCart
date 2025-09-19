@@ -84,6 +84,14 @@ export const routes: Routes = [
                 './components/shipping-addresses/shipping-addresses.component'
               ).then((c) => c.ShippingAddressesComponent),
           },
+          {
+            path: 'checkout',
+            title: 'Check Out',
+            loadComponent: () =>
+              import('./components/checkout/checkout.component').then(
+                (c) => c.CheckoutComponent,
+              ),
+          },
         ],
       },
     ],
