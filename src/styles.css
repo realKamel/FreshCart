@@ -1,16 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
 @import "tailwindcss";
-@plugin "@tailwindcss/forms";
 @custom-variant dark (&:where(.dark, .dark *));
-
+@plugin "@tailwindcss/forms";
 .body {
   @apply bg-slate-200;
 }
 
 @theme {
-  --color-primary: #1a9f5b;
-  --color-primary-light: #39d585;
-  --color-primary-dark: #187d4a;
   --color-background-light: #ffffff;
   --color-background-dark: #111827;
   --color-text-light: #111827;
