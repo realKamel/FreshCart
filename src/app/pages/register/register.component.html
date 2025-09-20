@@ -100,7 +100,7 @@
               name="phone"
               id="phone"
               formControlName="phone"
-              placeholder="+20 1234567890"
+              placeholder="01234567890"
               [class]="
                 isInvalid('phone')
                   ? [
@@ -144,7 +144,7 @@
                       class="truncate text-red-900 flex font-medium items-center gap-x-1"
                     >
                       <ng-icon name="lucideCircleX" />
-                      Phone Must Be like +201234567890 OR 01234567890
+                      Phone Must Be like 01234567890
                     </span>
                   }
                 </div>
@@ -276,7 +276,7 @@
                     class="truncate text-red-800 flex items-center gap-x-1 font-medium"
                   >
                     <ng-icon name="lucideCircleX" />
-                    Name Minimum Length is 8</span
+                    Password Minimum Length is 8</span
                   >
                 }
               </div>
@@ -291,7 +291,7 @@
               >Confirm password</label
             >
             <input
-              type="rePassword"
+              type="Password"
               formControlName="rePassword"
               name="rePassword"
               id="rePassword"

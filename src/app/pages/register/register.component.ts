@@ -1,5 +1,5 @@
 import { Component, inject, OnDestroy, signal } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { NgIcon } from '@ng-icons/core';
 import {
   AbstractControl,
@@ -20,6 +20,8 @@ import { toast } from 'ngx-sonner';
 })
 export class RegisterComponent implements OnDestroy {
   private readonly _AuthService = inject(AuthService);
+  private readonly _Router = inject(Router);
+
   private readonly destroy$ = new Subject<void>();
   readonly isLoading = signal(false);
   userRegisterFrom = new FormGroup(
@@ -78,6 +80,7 @@ export class RegisterComponent implements OnDestroy {
         .subscribe({
           next: (result) => {
             toast.success(result.message);
+            this._Router.navigate(['/log-in']);
           },
         });
     } else {
