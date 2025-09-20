@@ -28,7 +28,7 @@ jobs:
         run: git fetch origin beta
 
       - name: Merge beta into master
-        run: git merge origin/beta --no-edit
+        run: git merge origin/beta --no-edit --allow-unrelated-histories
 
       - name: Push merged code to master
         run: git push origin master
