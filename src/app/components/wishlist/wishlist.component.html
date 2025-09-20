@@ -1,0 +1,12 @@
+<div class="grid gap-2">
+  <h2 class="mb-3 text-3xl">My Wishlist</h2>
+  <div
+    class="grid justify-center grid-cols-12 gap-2 border-2 border-dashed border-emerald-300 p-5 rounded-lg"
+  >
+    @for (item of products(); track item._id) {
+      <div class="col-span-12 lg:col-span-6 xl:col-span-4 2xl:col-span-3">
+        <app-product-card [product]="item" />
+      </div>
+    }
+  </div>
+</div>

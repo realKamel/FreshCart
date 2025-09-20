@@ -1,0 +1,112 @@
+<div
+  class="fixed z-50 w-full h-16 max-w-lg -translate-x-1/2 bg-white/50 dark:bg-dark-200/50 backdrop-blur-sm border border-gray-200 rounded bottom-0 left-1/2 dark:border-gray-600"
+>
+  <div class="grid h-full max-w-lg grid-cols-4 mx-auto">
+    <button
+      [routerLink]="['/home']"
+      data-tooltip-target="tooltip-home"
+      type="button"
+      class="inline-flex flex-col items-center justify-center px-5 rounded-s-full hover:bg-gray-50 dark:hover:bg-gray-800 group"
+      routerLinkActive="text-emerald-600"
+      #rlaHome="routerLinkActive"
+    >
+      <ng-icon
+        class="text-3xl text-gray-500 dark:text-gray-400 group-hover:text-emerald-600 dark:group-hover:text-emerald-500"
+        [name]="rlaHome.isActive ? 'phosphorHouseFill' : 'phosphorHouse'"
+      />
+
+      <span class="sr-only">Home</span>
+    </button>
+    <div
+      id="tooltip-home"
+      role="tooltip"
+      class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700"
+    >
+      Home
+      <div class="tooltip-arrow" data-popper-arrow></div>
+    </div>
+
+    <button
+      [routerLink]="['/account', 'wishlist']"
+      [routerLinkActiveOptions]="{ exact: true }"
+      data-tooltip-target="tooltip-wallet"
+      type="button"
+      class="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 dark:hover:bg-gray-800 group"
+      routerLinkActive="text-emerald-600"
+      #rlaWishlist="routerLinkActive"
+    >
+      <ng-icon
+        class="text-3xl text-gray-500 dark:text-gray-400 group-hover:text-emerald-600 dark:group-hover:text-emerald-500"
+        [name]="
+          rlaWishlist.isActive
+            ? 'phosphorHeartStraightFill'
+            : 'phosphorHeartStraight'
+        "
+      />
+
+      <span class="sr-only">Wishlist</span>
+    </button>
+    <div
+      id="tooltip-wallet"
+      role="tooltip"
+      class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700"
+    >
+      Wallet
+      <div class="tooltip-arrow" data-popper-arrow></div>
+    </div>
+
+    <button
+      [routerLink]="['/account', 'cart']"
+      [routerLinkActiveOptions]="{ exact: true }"
+      data-tooltip-target="tooltip-settings"
+      type="button"
+      class="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 dark:hover:bg-gray-800 group"
+      routerLinkActive="text-emerald-600"
+      #rlaCart="routerLinkActive"
+    >
+      <ng-icon
+        class="text-3xl text-gray-500 dark:text-gray-400 group-hover:text-emerald-600 dark:group-hover:text-emerald-500"
+        [name]="
+          rlaCart.isActive ? 'phosphorShoppingCartFill' : 'phosphorShoppingCart'
+        "
+      />
+      <span class="sr-only">Cart</span>
+    </button>
+    <div
+      id="tooltip-settings"
+      role="tooltip"
+      class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700"
+    >
+      Settings
+      <div class="tooltip-arrow" data-popper-arrow></div>
+    </div>
+
+    <button
+      [routerLink]="['/account']"
+      [routerLinkActiveOptions]="{ exact: true }"
+      data-tooltip-target="tooltip-profile"
+      type="button"
+      class="inline-flex flex-col items-center justify-center px-5 rounded-e-full hover:bg-gray-50 dark:hover:bg-gray-800 group"
+      routerLinkActive="text-emerald-600"
+      #rlaAccount="routerLinkActive"
+    >
+      <ng-icon
+        class="text-3xl text-gray-500 dark:text-gray-400 group-hover:text-emerald-600 dark:group-hover:text-emerald-500"
+        [name]="
+          rlaAccount.isActive
+            ? 'phosphorDotsThreeOutlineFill'
+            : 'phosphorDotsThreeOutline'
+        "
+      />
+      <span class="sr-only">More</span>
+    </button>
+    <div
+      id="tooltip-profile"
+      role="tooltip"
+      class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700"
+    >
+      Profile
+      <div class="tooltip-arrow" data-popper-arrow></div>
+    </div>
+  </div>
+</div>

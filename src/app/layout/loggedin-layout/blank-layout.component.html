@@ -1,0 +1,9 @@
+<div class="mb-[4rem]">
+  <app-navbar-logged-in></app-navbar-logged-in>
+</div>
+<div class="container mx-auto">
+  <router-outlet></router-outlet>
+</div>
+@if (isMobile()) {
+  <app-mobile-bottom-nav />
+}

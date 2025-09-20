@@ -1,0 +1,25 @@
+{
+  "semi": true,
+  "bracketSameLine": true,
+  "singleQuote": true,
+  "printWidth": 100,
+  "tabWidth": 2,
+  "useTabs": false,
+  "trailingComma": "all",
+  "bracketSpacing": true,
+  "arrowParens": "always",
+  "endOfLine": "lf",
+  "htmlWhitespaceSensitivity": "ignore",
+  "embeddedLanguageFormatting": "auto",
+  "overrides": [
+    {
+      "files": "*.html",
+      "options": {
+        "parser": "angular",
+        "singleQuote": false,
+        "printWidth": 120
+      }
+    }
+  ],
+  "plugins": ["prettier-plugin-tailwindcss"]
+}

@@ -1,0 +1,7 @@
+<swiper-container #slider class="mySwiper" init="false">
+  @for (item of this.products(); track item._id) {
+    <swiper-slide class="p-1">
+      <app-product-card [product]="item" />
+    </swiper-slide>
+  }
+</swiper-container>

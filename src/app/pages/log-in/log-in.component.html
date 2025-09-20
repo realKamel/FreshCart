@@ -1,0 +1,210 @@
+<section class="bg-white dark:bg-gray-900">
+  <div
+    class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0"
+  >
+    <a
+      [routerLink]="['/home']"
+      class="flex items-center mb-6 text-2xl font-semibold text-primary-600 dark:text-white"
+    >
+      Fresh Cart
+    </a>
+    <div
+      class="w-full bg-white rounded-lg shadow border border-gray-300 dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700"
+    >
+      <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+        <h1
+          class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white"
+        >
+          Sign in to your account
+        </h1>
+        <form
+          class="space-y-4 md:space-y-6"
+          [formGroup]="userLoginFrom"
+          (ngSubmit)="onUserSubmit()"
+        >
+          <div>
+            <label
+              for="email"
+              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >Your email</label
+            >
+            <input
+              type="email"
+              name="email"
+              formControlName="email"
+              id="email"
+              [class]="
+                isInvalid('email')
+                  ? [
+                      'dark:text-red-500',
+                      'text-red-900',
+                      'border-red-300',
+                      'focus:ring-red-600',
+                      'focus:border-red-600',
+                      'dark:focus:ring-red-500',
+                      'dark:focus:border-red-500',
+                      'dark:border-gray-600',
+                      'dark:bg-gray-700',
+                    ]
+                  : [
+                      'dark:text-white',
+                      'text-gray-900',
+                      'border-gray-300',
+                      'focus:ring-primary-600',
+                      'focus:border-primary-600',
+                      'dark:focus:ring-primary-500',
+                      'dark:focus:border-primary-500',
+                      'dark:border-gray-600',
+                      'dark:bg-gray-700',
+                    ]
+              "
+              class="bg-gray-50 border rounded-lg block w-full p-2.5 dark:placeholder-gray-400"
+              placeholder="name@example.com"
+            />
+            @if (isInvalid("email")) {
+              <div
+                class="p-4 mt-2 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                role="alert"
+              >
+                @if (getErrors("email", "required")) {
+                  <span
+                    class="truncate text-red-800 flex items-center gap-x-1 font-medium"
+                  >
+                    <ng-icon name="lucideCircleX" />Email is required
+                  </span>
+                }
+
+                @if (getErrors("email", "email")) {
+                  <span
+                    class="truncate text-red-800 flex items-center gap-x-1 font-medium"
+                  >
+                    <ng-icon name="lucideCircleX" />
+                    Email must be like abc&#64;xyz.com
+                  </span>
+                }
+              </div>
+            }
+          </div>
+          <div>
+            <label
+              for="password"
+              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >Password</label
+            >
+            <input
+              type="password"
+              formControlName="password"
+              name="password"
+              id="password"
+              placeholder="••••••••"
+              [class]="
+                isInvalid('password')
+                  ? [
+                      'dark:text-red-500',
+                      'text-red-900',
+                      'border-red-300',
+                      'focus:ring-red-600',
+                      'focus:border-red-600',
+                      'dark:focus:ring-red-500',
+                      'dark:focus:border-red-500',
+                      'dark:border-red-600',
+                      'dark:bg-red-700',
+                    ]
+                  : [
+                      'dark:text-white',
+                      'text-gray-900',
+                      'border-gray-300',
+                      'focus:ring-primary-600',
+                      'focus:border-primary-600',
+                      'dark:focus:ring-primary-500',
+                      'dark:focus:border-primary-500',
+                      'dark:border-gray-600',
+                      'dark:bg-gray-700',
+                    ]
+              "
+              class="border rounded-lg block w-full p-2.5 bg-gray-50 dark:bg-gray-700 dark:placeholder-gray-400"
+            />
+            @if (isInvalid("password")) {
+              <div
+                class="p-4 mb-4 mt-2 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                role="alert"
+              >
+                @if (getErrors("password", "required")) {
+                  <span
+                    class="truncate text-red-800 flex items-center gap-x-1 font-medium"
+                  >
+                    <ng-icon name="lucideCircleX" />
+                    Password is required
+                  </span>
+                }
+
+                @if (getErrors("password", "pattern")) {
+                  <span
+                    class="truncate text-red-800 flex items-center gap-x-1 font-medium"
+                  >
+                    <ng-icon name="lucideCircleX" />
+                    Password Minimum Length is 8</span
+                  >
+                }
+              </div>
+            }
+          </div>
+          <div class="flex items-center justify-end">
+            <a
+              [routerLink]="['/auth', 'forget-password']"
+              class="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500"
+              >Forgot password?</a
+            >
+          </div>
+          <button
+            type="submit"
+            [disabled]="!userLoginFrom.valid"
+            class="w-full text-white focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+            [class]="
+              userLoginFrom.valid && !isLoading()
+                ? [
+                    'bg-primary-600',
+                    'hover:bg-primary-700',
+                    'focus:border-primary-700',
+                    'focus:ring-primary-300',
+                    'active:bg-primary-700',
+                    'dark:bg-primary-600',
+                    'dark:hover:bg-primary-700',
+                    'dark:focus:ring-primary-800',
+                    'cursor-pointer',
+                  ]
+                : [
+                    'bg-gray-600',
+                    'hover:bg-gray-500',
+                    'focus:border-gray-700',
+                    'focus:ring-gray-300',
+                    'active:bg-gray-700',
+                    'dark:bg-gray-600',
+                    'dark:hover:bg-gray-700',
+                    'dark:focus:ring-gray-800',
+                    'cursor-not-allowed',
+                  ]
+            "
+          >
+            @if (isLoading()) {
+              <ng-icon
+                class="text-lg animate-spin"
+                name="lucideLoaderCircle"
+              ></ng-icon>
+            } @else {
+              Login
+            }
+          </button>
+          <p class="text-sm font-light text-gray-500 dark:text-gray-400">
+            Don't have an account yet?
+            <a
+              [routerLink]="['/auth', 'register']"
+              class="font-medium text-primary-600 hover:underline dark:text-primary-500"
+              >Sign up</a
+            >
+          </p>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>

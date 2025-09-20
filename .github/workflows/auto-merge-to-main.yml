@@ -1,0 +1,34 @@
+name: Auto Merge Beta to Main
+
+on:
+  pull_request:
+    branches:
+      - beta
+    types:
+      - closed
+  push:
+    branches:
+      - beta
+
+jobs:
+  merge_beta_to_main:
+    if: github.event.pull_request.merged == true || github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main branch
+        uses: actions/checkout@v4
+        with:
+          ref: "main"
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Pull latest from main
+        run: git pull origin main
+
+      - name: Fetch beta branch
+        run: git fetch origin beta
+
+      - name: Merge beta into main
+        run: git merge origin/beta --no-edit
+
+      - name: Push merged code to main
+        run: git push origin main

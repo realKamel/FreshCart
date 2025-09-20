@@ -1,0 +1,22 @@
+<swiper-container #swiperContainer class="mySwiper" init="false">
+  @for (item of this._CategoriesService.categories().data; track item._id) {
+    <swiper-slide>
+      <div
+        class="cursor-pointer flex flex-col justify-center items-center"
+        [routerLink]="['/search', 'category', item._id]"
+      >
+        <div
+          class="relative w-full rounded-full overflow-hidden flex justify-center items-center"
+        >
+          <img
+            priority
+            [src]="item.image"
+            class="size-48 rounded-full border-2 border-gray-200 object-cover"
+            alt="{{ item.slug }}"
+          />
+        </div>
+        <div>{{ item.name }}</div>
+      </div>
+    </swiper-slide>
+  }
+</swiper-container>
