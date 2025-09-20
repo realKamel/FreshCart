@@ -1,0 +1,41 @@
+name: Auto Merge Beta to Master
+
+on:
+  pull_request:
+    branches:
+      - beta
+    types:
+      - closed
+  push:
+    branches:
+      - beta
+
+jobs:
+  merge_beta_to_master:
+    if: github.event.pull_request.merged == true || github.event_name == 'push'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout master branch
+        uses: actions/checkout@v4
+        with:
+          ref: "master"
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Pull latest from master
+        run: git pull origin master
+
+      - name: Set Git user identity
+        run: |
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+
+      - name: Fetch beta branch
+        run: git fetch origin beta
+
+      - name: Merge beta into master
+        run: git merge origin/beta --no-edit --allow-unrelated-histories
+
+      - name: Push merged code to master
+        run: git push origin master
