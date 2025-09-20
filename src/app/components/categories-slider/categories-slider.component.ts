@@ -55,7 +55,9 @@ export class CategoriesSliderComponent
         slidesPerView: 2.5,
         spaceBetween: 10,
         navigation: true,
-        freeMode: true,
+        mousewheel: {
+          forceToAxis: true,
+        },
         breakpoints: {
           640: {
             slidesPerView: 2.5,

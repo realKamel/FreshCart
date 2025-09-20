@@ -104,7 +104,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
           fill: 'row',
         },
         scrollbar: { hide: true },
-        freeMode: true,
+        mousewheel: { forceToAxis: true },
         keyboard: true,
         spaceBetween: 10,
         slidesPerView: 2.5,
