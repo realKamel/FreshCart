@@ -1,23 +1,20 @@
-<header>
+<header class="antialiased">
   <!-- delivery Modal -->
   <ng-container #addressModal />
   <!-- end delivery Modal -->
-  <section
-    class="bg-white/50 transition-all duration-300 fixed top-0 left-0 right-0 z-50 backdrop-blur-sm border-emerald-500 border-b-2"
+  <nav
+    class="border-gray-200 px-4 lg:px-6 dark:bg-gray-800/50 bg-white/50 dark:bg-dark-200/30 transition-all duration-300 fixed top-0 left-0 right-0 z-50 backdrop-blur-sm border-b-2"
+    aria-label="Main navigation"
   >
     <div class="mx-auto container-fluid px-4 sm:px-6 lg:px-8">
       <div class="flex justify-center h-16 items-center gap-x-2">
         <div class="logo grid justify-center items-center">
           <div class="md:flex md:items-center md:gap-12">
-            <a class="block text-emerald-600 cursor-pointer" routerLink="home">
-              <span class="sr-only">Home</span>
-              <div class="logo">
-                <p
-                  class="font-medium text-2xl hover:text-emerald-700 transition-colors duration-200 text-nowrap"
-                >
-                  Fresh Cart
-                </p>
-              </div>
+            <a type="button" [routerLink]="['home']" class="flex mr-4">
+              <span
+                class="self-center text-primary-600 hover:text-emerald-700 transition-colors text-2xl font-semibold whitespace-nowrap dark:text-white"
+                >Fresh Cart</span
+              >
             </a>
           </div>
         </div>
@@ -36,7 +33,7 @@
                   class="text-gray-700 whitespace-nowrap overflow-ellipsis overflow-hidden font-medium"
                 >
                   @if (!userAddress()) {
-                    <p>No Address yet</p>
+                    <p class="text-gray-700">No Address yet</p>
                   } @else {
                     {{ userAddress().name }}
                     -
@@ -223,5 +220,5 @@
         }
       </div>
     </div>
-  </section>
+  </nav>
 </header>
