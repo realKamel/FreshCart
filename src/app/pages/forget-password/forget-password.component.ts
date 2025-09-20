@@ -1,4 +1,11 @@
-import { Component, computed, inject, OnDestroy, signal } from '@angular/core';
+import {
+  Component,
+  computed,
+  CUSTOM_ELEMENTS_SCHEMA,
+  inject,
+  OnDestroy,
+  signal,
+} from '@angular/core';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgIcon } from '@ng-icons/core';
 import { Subject, takeUntil } from 'rxjs';
@@ -10,19 +17,23 @@ import { Router, RouterLink } from '@angular/router';
   imports: [NgIcon, ReactiveFormsModule, RouterLink],
   templateUrl: './forget-password.component.html',
   styleUrl: './forget-password.component.css',
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class ForgetPasswordComponent implements OnDestroy {
-  protected readonly stepCounter = signal(1);
   private readonly _AuthService = inject(AuthService);
   private readonly _Router = inject(Router);
+  protected isEmailCheckLoading = signal(false);
+  protected isCodeCheckLoading = signal(false);
+  protected isNewPasswordLoading = signal(false);
+  protected readonly stepCounter = signal(1);
   private readonly destroy$ = new Subject<void>();
-  protected email = new FormControl<string>('', [
+  protected email = new FormControl('', [
     Validators.required,
     Validators.email,
   ]);
-  protected resetCode = new FormControl<number>(0, [
+  protected resetCode = new FormControl<string>('', [
     Validators.required,
-    Validators.pattern(/^\d{1,6}$/),
+    Validators.pattern(/^\d{6}$/),
   ]);
   protected newPassword = new FormControl(null, [
     Validators.required,
@@ -67,8 +78,8 @@ export class ForgetPasswordComponent implements OnDestroy {
     }
   }
   checkEmail() {
-    console.log(this.email);
     if (this.email.value !== null && this.email.valid) {
+      this.isEmailCheckLoading.set(true);
       this._AuthService
         .forgetPassword(this.email.value)
         .pipe(takeUntil(this.destroy$))
@@ -79,21 +90,30 @@ export class ForgetPasswordComponent implements OnDestroy {
           },
         });
     }
+    this.isEmailCheckLoading.set(false);
   }
   checkResetCode() {
+    this.isCodeCheckLoading.set(true);
     if (this.resetCode.valid) {
       this._AuthService
-        .verifyResetCode(this.resetCode.value ?? 0)
+        .verifyResetCode(this.resetCode.value ?? '')
         .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: (result) => {
-            this.stepCounter.update((p) => p + 1);
-            toast.info(result.status);
+            if (result.statusMsg) {
+              toast.error(result.status);
+            } else {
+              this.stepCounter.update((p) => p + 1);
+
+              toast.info(result.status);
+            }
           },
         });
     }
+    this.isCodeCheckLoading.set(false);
   }
   resetPassword() {
+    this.isNewPasswordLoading.set(true);
     if (this.email.value && this.newPassword.value) {
       this._AuthService
         .resetPassword(this.email.value, this.newPassword.value)
@@ -105,6 +125,7 @@ export class ForgetPasswordComponent implements OnDestroy {
           },
         });
     }
+    this.isNewPasswordLoading.set(false);
   }
   ngOnDestroy(): void {
     this.destroy$.next();

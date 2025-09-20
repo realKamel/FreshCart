@@ -74,8 +74,10 @@ export class AuthService {
       email: userEmail,
     });
   }
-  verifyResetCode(resetCode: number): Observable<{ status: string }> {
-    return this._HttpClient.post<{ status: string }>(
+  verifyResetCode(
+    resetCode: string,
+  ): Observable<{ status: string; statusMsg?: string }> {
+    return this._HttpClient.post<{ status: string; statusMsg: string }>(
       `${environment.baseUrl}/api/v1/auth/verifyResetCode`,
       { resetCode: resetCode },
     );
