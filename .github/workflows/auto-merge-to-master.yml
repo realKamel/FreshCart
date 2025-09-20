@@ -1,4 +1,4 @@
-name: Auto Merge Beta to Main
+name: Auto Merge Beta to Master
 
 on:
   pull_request:
@@ -11,24 +11,24 @@ on:
       - beta
 
 jobs:
-  merge_beta_to_main:
+  merge_beta_to_master:
     if: github.event.pull_request.merged == true || github.event_name == 'push'
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout main branch
+      - name: Checkout master branch
         uses: actions/checkout@v4
         with:
-          ref: "main"
+          ref: "master"
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Pull latest from main
-        run: git pull origin main
+      - name: Pull latest from master
+        run: git pull origin master
 
       - name: Fetch beta branch
         run: git fetch origin beta
 
-      - name: Merge beta into main
+      - name: Merge beta into master
         run: git merge origin/beta --no-edit
 
-      - name: Push merged code to main
-        run: git push origin main
+      - name: Push merged code to master
+        run: git push origin master
