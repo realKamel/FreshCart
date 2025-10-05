@@ -24,10 +24,6 @@ export const serverRoutes: ServerRoute[] = [
     renderMode: RenderMode.Client,
   },
   {
-    path: 'account/addresses',
-    renderMode: RenderMode.Client,
-  },
-  {
     path: 'auth/log-in',
     renderMode: RenderMode.Client,
   },

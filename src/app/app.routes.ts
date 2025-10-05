@@ -37,6 +37,11 @@ export const routes: Routes = [
       //must be logged in routes
       {
         path: 'account',
+        redirectTo: 'account/profile',
+        pathMatch: 'full',
+      },
+      {
+        path: 'account',
         title: 'My Account',
         canActivate: [loggedinGuard],
         loadComponent: () =>
@@ -75,14 +80,6 @@ export const routes: Routes = [
               import('./components/orders/orders.component').then(
                 (c) => c.OrdersComponent,
               ),
-          },
-          {
-            path: 'addresses',
-            title: 'My Addresses',
-            loadComponent: () =>
-              import(
-                './components/shipping-addresses/shipping-addresses.component'
-              ).then((c) => c.ShippingAddressesComponent),
           },
           {
             path: 'checkout',
