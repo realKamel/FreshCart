@@ -33,6 +33,7 @@
     "@angular/platform-server": "^20.1.0",
     "@angular/router": "^20.1.0",
     "@angular/ssr": "^20.1.5",
+    "@netlify/angular-runtime": "^3.0.0",
     "@ng-icons/core": "^32.1.0",
     "@ng-icons/lucide": "^32.1.0",
     "@ng-icons/phosphor-icons": "^32.1.0",
