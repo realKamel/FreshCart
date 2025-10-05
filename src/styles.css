@@ -33,3 +33,12 @@
     color-scheme: dark;
   }
 }
+
+html,
+body {
+  height: 100%;
+}
+* {
+  transition: all;
+  transition-duration: 400ms;
+}

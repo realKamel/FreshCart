@@ -1,5 +1,6 @@
 import {
   Component,
+  computed,
   CUSTOM_ELEMENTS_SCHEMA,
   inject,
   signal,
@@ -13,6 +14,7 @@ import {
 } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
+import { ResponsiveBreakpointsService } from '../../services/responsive-breakpoints.service';
 
 @Component({
   selector: 'app-profile',
@@ -23,8 +25,15 @@ import { AuthService } from '../../services/auth.service';
 })
 export class ProfileComponent {
   private readonly _AuthService = inject(AuthService);
+  private readonly _ResponsiveBreakpointsService = inject(
+    ResponsiveBreakpointsService,
+  );
+  protected readonly isMobile = computed(
+    () => !this._ResponsiveBreakpointsService.isDesktop(),
+  );
   protected readonly isLoading = signal(false);
   private readonly destroy$ = new Subject<void>();
+
   protected readonly userInfo = new FormGroup({
     name: new FormControl<string | null>(this._AuthService.userInfo().name, [
       Validators.required,
