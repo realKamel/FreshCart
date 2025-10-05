@@ -40,6 +40,8 @@ import {
   lucideLogOut,
   lucideMap,
   lucideMenu,
+  lucideMoon,
+  lucidePanelRight,
   lucidePlus,
   lucideSearch,
   lucideShieldEllipsis,
@@ -126,6 +128,8 @@ export const appConfig: ApplicationConfig = {
       lucideClock,
       lucideCheck,
       lucideTruck,
+      lucideMoon,
+      lucidePanelRight,
     }),
   ],
 };

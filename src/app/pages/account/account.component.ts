@@ -14,10 +14,17 @@ import { ThemeService } from '../../services/theme.service';
 import { TitleCasePipe } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
 import { OrdersService } from '../../services/orders.service';
+import { MatSidenavModule } from '@angular/material/sidenav';
 
 @Component({
   selector: 'app-account',
-  imports: [NgIcon, RouterOutlet, RouterLink, RouterLinkActive, TitleCasePipe],
+  imports: [
+    NgIcon,
+    RouterOutlet,
+    RouterLink,
+    RouterLinkActive,
+    MatSidenavModule,
+  ],
   templateUrl: './account.component.html',
   styleUrl: './account.component.css',
 
