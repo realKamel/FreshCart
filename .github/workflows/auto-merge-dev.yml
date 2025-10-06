@@ -1,19 +1,21 @@
-name: Auto Merge Beta to Main
+name: Auto Merge dev to main
 
 on:
   pull_request:
     branches:
-      - beta
+      - dev
     types:
       - closed
   push:
     branches:
-      - beta
+      - dev
 
 jobs:
-  merge_beta_to_main:
+  merge_dev_to_main:
     if: github.event.pull_request.merged == true || github.event_name == 'push'
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Checkout main branch
         uses: actions/checkout@v4
@@ -24,11 +26,16 @@ jobs:
       - name: Pull latest from main
         run: git pull origin main
 
-      - name: Fetch beta branch
-        run: git fetch origin beta
+      - name: Set Git user identity
+        run: |
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
 
-      - name: Merge beta into main
-        run: git merge origin/beta --no-edit
+      - name: Fetch dev branch
+        run: git fetch origin dev
+
+      - name: Merge dev into main
+        run: git merge origin/dev --no-edit
 
       - name: Push merged code to main
         run: git push origin main
