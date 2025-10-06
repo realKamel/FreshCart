@@ -8,7 +8,10 @@
   >
     <div class="mx-auto container-fluid ps-4 sm:ps-6 lg:ps-8">
       <div class="flex justify-center h-16 items-center gap-x-2">
-        <div class="log-search w-full flex justify-between">
+        <div
+          [class]="isUserLoggedIn() ? 'justify-between' : 'justify-center'"
+          class="log-search w-full flex justify-evenly"
+        >
           <div class="logo grid justify-center items-center">
             <div class="md:flex md:items-center md:gap-12">
               <a type="button" [routerLink]="['home']" class="flex mr-4">
