@@ -1,6 +1,6 @@
 <section class="mt-5 bg-white rounded-lg">
   <div class="container mx-0 p-10 grid grid-cols-10 gap-x-3 relative">
-    <aside class="flex flex-col gap-x-2 col-span-2 h-screen">
+    <aside class="md:flex flex-col gap-x-2 col-span-2 h-screen hidden">
       <div class="space-y-4">
         <details
           class="group relative overflow-hidden rounded border border-gray-300 shadow-sm"
@@ -223,8 +223,8 @@
         </div>
       </div>
     </aside>
-    <div class="col-span-8 flex flex-col gap-2">
-      <div class="mb-2 grid justify-end">
+    <div class="col-span-12 md:col-span-8 flex flex-col gap-2">
+      <div class="mb-2 hidden md:grid justify-end">
         <form class="max-w-sm mx-auto">
           <select
             (change)="applyUserFilters()"
