@@ -11,7 +11,6 @@ import { WishlistService } from '../../services/wishlist.service';
 import { AddressesService } from '../../services/addresses.service';
 import { ResponsiveBreakpointsService } from '../../services/responsive-breakpoints.service';
 import { ThemeService } from '../../services/theme.service';
-import { TitleCasePipe } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
 import { OrdersService } from '../../services/orders.service';
 import { MatSidenavModule } from '@angular/material/sidenav';
