@@ -15,8 +15,6 @@ import { IProduct } from '../../interfaces/iproduct';
 import { ProductCardComponent } from '../product-card/product-card.component';
 import { isPlatformBrowser } from '@angular/common';
 
-register();
-
 @Component({
   selector: 'app-products-slider',
   imports: [ProductCardComponent],
@@ -40,6 +38,7 @@ export class ProductsSliderComponent implements AfterViewInit {
     // slides-per-view="5"
 
     if (isPlatformBrowser(this._PLATFORM_ID)) {
+      register();
       const el = this.productSlider()?.nativeElement as SwiperContainer;
       const opt: SwiperOptions = {
         keyboard: true,

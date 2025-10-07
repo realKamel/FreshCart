@@ -16,7 +16,6 @@ import { isPlatformBrowser } from '@angular/common';
 import { SwiperOptions } from 'swiper/types';
 import { RouterLink } from '@angular/router';
 
-register();
 @Component({
   selector: 'app-categories-slider',
   imports: [RouterLink],
@@ -50,6 +49,7 @@ export class CategoriesSliderComponent
     // pagination-clickable="true"
     // free-mode="true"
     if (isPlatformBrowser(this._PLATFORM_ID)) {
+      register();
       const el = this.categoriesSlider()?.nativeElement as SwiperContainer;
       const option = {
         slidesPerView: 2.5,

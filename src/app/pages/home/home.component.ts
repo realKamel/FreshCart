@@ -23,7 +23,6 @@ import { CategoriesService } from '../../services/categories.service';
 import { ProductsSliderComponent } from '../../components/products-slider/products-slider.component';
 import { SwiperOptions } from 'swiper/types';
 
-register();
 @Component({
   selector: 'app-home',
   imports: [
@@ -97,6 +96,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     // slides-per-view="4"
 
     if (isPlatformBrowser(this._PLATFORM_ID)) {
+      register();
       const el = this.brandsSlider()?.nativeElement as SwiperContainer;
       const opt: SwiperOptions = {
         grid: {

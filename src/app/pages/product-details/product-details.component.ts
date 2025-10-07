@@ -1,9 +1,11 @@
 import {
+  AfterViewInit,
   Component,
   CUSTOM_ELEMENTS_SCHEMA,
   inject,
   OnDestroy,
   OnInit,
+  PLATFORM_ID,
   signal,
 } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
@@ -14,11 +16,10 @@ import { toast } from 'ngx-sonner';
 import { register } from 'swiper/element/bundle';
 import { CartService } from '../../services/cart.service';
 import { WishlistService } from '../../services/wishlist.service';
-import { CurrencyPipe } from '@angular/common';
+import { CurrencyPipe, isPlatformBrowser } from '@angular/common';
 import { NgIcon } from '@ng-icons/core';
 import { FormControl, Validators } from '@angular/forms';
 
-register();
 @Component({
   selector: 'app-product-details',
   imports: [CurrencyPipe, NgIcon],
@@ -26,10 +27,13 @@ register();
   styleUrl: './product-details.component.css',
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class ProductDetailsComponent implements OnInit, OnDestroy {
+export class ProductDetailsComponent
+  implements OnInit, AfterViewInit, OnDestroy
+{
   protected readonly _ProductsService = inject(ProductsService);
   protected readonly _CartService = inject(CartService);
   private readonly _ActivatedRoute = inject(ActivatedRoute);
+  private readonly _PLATFORM_ID = inject(PLATFORM_ID);
   protected readonly isProductInWishlist = signal(false);
   protected readonly isWishlistLoading = signal(false);
   protected readonly isProductInCart = signal(false);
@@ -100,6 +104,11 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
     });
   }
 
+  ngAfterViewInit(): void {
+    if (isPlatformBrowser(this._PLATFORM_ID)) {
+      register();
+    }
+  }
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
